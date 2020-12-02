@@ -1,0 +1,29 @@
+# https://www.mickaelvieira.com/blog/2020/01/29/deploying-a-static-website-to-google-cloud-storage-with-github-actions.html
+name: Website - Production
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install Packages
+      run: npm install
+    - name: Build page
+      run: npm run build
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: '276.0.0'
+        service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+    - run: gsutil -m rsync -d -c -r public gs://my-gcs-bucket
+    # - run: gsutil -m setmeta -h "Cache-Control:public, max-age=3600" gs://my-gcs-bucket/**/*.html
+    # - run: gsutil -m setmeta -h "Cache-Control:public, max-age=31536000" gs://my-gcs-bucket/js/*.js
+    # - run: gsutil -m setmeta -h "Cache-Control:public, max-age=31536000" gs://my-gcs-bucket/css/*.css
