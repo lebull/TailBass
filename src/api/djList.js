@@ -4,7 +4,7 @@ const GOOGLE_SPREADSHEET_ID = "1EksYPAU2ksqEJHmq5QnjbgDKaSdmlKoDhpJUvB0eLsE";
 const GOOGLE_SHEETS_API_KEY = "AIzaSyCW7EOVkKv6s_6WJMmqHX5QwxwkA6UuSuY";
 const GOOGLE_SPREADSHEET_DJ_WORKSHEET_ID = 2057121297;
 
-const getDjData = async () => {
+export const getDjData = async () => {
     const doc = new GoogleSpreadsheet(GOOGLE_SPREADSHEET_ID);
     doc.useApiKey(GOOGLE_SHEETS_API_KEY);
     await doc.loadInfo();

@@ -1,2 +1,0 @@
-# TailBass
-Tailbass webapp
