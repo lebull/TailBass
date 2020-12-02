@@ -17,7 +17,12 @@ export const getDjData = async () => {
         .filter(stringDate => new Date(stringDate) >= new Date())
         [0];
 
-    const nextEventDjs = djs.filter(row => row._raw[nextEventDate]);
+    const nextEventDjs = djs
+        .filter(row => row._raw[nextEventDate])
+        .map(dj => ({
+            ...dj,
+            nextEventTime: dj.dates[nextEventDate]
+        }));
 
     return {
         djs,

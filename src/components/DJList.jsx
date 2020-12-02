@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getDjData } from "../api/djList";
+import "./DJList.css";
 
 export const DJList = () => {
     const [djDataState, setDjData] = useState({
@@ -31,8 +32,15 @@ export const DJList = () => {
         return <div>{djDataState.error}</div>
     }
 
-    return <div>
-        <h1>{djDataState.nextEventDate}</h1>
-        {djDataState.nextEventDjs.map(dj => <div>{dj.Name}</div>)}
+    return <div className="DjList">
+        <h1 className="DjListTitle">TailBass</h1>
+        <h2>{djDataState.nextEventDate}</h2>
+        {djDataState.nextEventDjs.map(dj => <DjSlot dj={dj} />)}
     </div>
 }
+
+const DjSlot = ({dj}) => <div className="Dj">
+    <div>{dj.nextEventTime}</div>
+    <div>{dj.Name}</div>
+    <div>{dj.Genres}</div>
+</div>
