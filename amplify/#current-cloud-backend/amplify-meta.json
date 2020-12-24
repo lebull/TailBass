@@ -13,26 +13,26 @@
     }
   },
   "auth": {
-    "TailBass": {
+    "tailbass7454085c": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
       "customAuth": false,
       "providerMetadata": {
-        "s3TemplateURL": "https://s3.amazonaws.com/amplify-tailbass-dev-165051-deployment/amplify-cfn-templates/auth/TailBass-cloudformation-template.yml",
-        "logicalId": "authTailBass"
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-tailbass-dev-165051-deployment/amplify-cfn-templates/auth/tailbass7454085c-cloudformation-template.yml",
+        "logicalId": "authtailbass7454085c"
       },
-      "lastPushTimeStamp": "2020-12-24T17:23:58.197Z",
+      "lastPushTimeStamp": "2020-12-24T23:13:54.107Z",
       "output": {
-        "AppClientSecret": "d9hq1963qnqo6v0jlgmku5eajcg7lnoq12bhkba4f2puqvbvpdm",
-        "UserPoolId": "us-east-1_kC9cWS0s3",
-        "AppClientIDWeb": "2j31c4k48d26hins3mshu98bcv",
-        "AppClientID": "5ahdom7acja4u05b23ru17ss82",
-        "IdentityPoolId": "us-east-1:919ecfed-fb05-4de6-afd5-15f9cd3ecc47",
-        "IdentityPoolName": "testAuthIdentityPool__dev",
-        "UserPoolName": "TailBass"
+        "AppClientSecret": "rsob5alrbroujn9k0efg9ci7no3qbv7au7v5tamt0647q7ap4ti",
+        "UserPoolId": "us-east-1_igp7Tr9OH",
+        "AppClientIDWeb": "199ghassedj4pphtbsk6f8ga7k",
+        "AppClientID": "42uen38q7ir04jph26fof55kba",
+        "IdentityPoolId": "us-east-1:8bca5e85-0222-4b3a-b657-5013b5056665",
+        "IdentityPoolName": "tailbass7454085c_identitypool_7454085c__dev",
+        "UserPoolName": "tailbass7454085c_userpool_7454085c"
       },
-      "lastPushDirHash": "avwfe2YObWi/fwg6fZiqcqUa8U8="
+      "lastPushDirHash": "pjvpbzH+1tH4CtYqLWOqcaLfR/Q="
     }
   },
   "api": {
@@ -58,7 +58,7 @@
         "GraphQLAPIEndpointOutput": "https://wsga6myxjbdwxa3ozvcs3aprri.appsync-api.us-east-1.amazonaws.com/graphql",
         "GraphQLAPIKeyOutput": "da2-eikddfwesvbodmydiog5nro7gu"
       },
-      "lastPushTimeStamp": "2020-12-24T17:23:58.191Z",
+      "lastPushTimeStamp": "2020-12-24T23:13:54.101Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-tailbass-dev-165051-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apiTailBass"

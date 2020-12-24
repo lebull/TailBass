@@ -1,28 +1,23 @@
 {
-    "identityPoolName": "testAuthIdentityPool",
+    "identityPoolName": "tailbass7454085c_identitypool_7454085c",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "tailba217bae74",
-    "userPoolName": "TailBass",
+    "resourceNameTruncated": "tailba7454085c",
+    "userPoolName": "tailbass7454085c_userpool_7454085c",
     "autoVerifiedAttributes": [
-        "phone_number"
+        "email"
     ],
     "mfaConfiguration": "OFF",
     "mfaTypes": [
         "SMS Text Message"
     ],
     "smsAuthenticationMessage": "Your authentication code is {####}",
-    "smsVerificationMessage": "Forgot password code: {####}",
+    "smsVerificationMessage": "Your verification code is {####}",
     "emailVerificationSubject": "Your verification code",
     "emailVerificationMessage": "Your verification code is {####}",
     "defaultPasswordPolicy": false,
     "passwordPolicyMinLength": 8,
-    "passwordPolicyCharacters": [
-        "Requires Lowercase",
-        "Requires Numbers",
-        "Requires Uppercase"
-    ],
+    "passwordPolicyCharacters": [],
     "requiredAttributes": [
-        "preferred_username",
         "email"
     ],
     "userpoolClientGenerateSecret": true,
@@ -33,10 +28,10 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "TailBa217bae74_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "tailba7454085c_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "217bae74",
-    "resourceName": "TailBass",
+    "sharedId": "7454085c",
+    "resourceName": "tailbass7454085c",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
@@ -50,12 +45,13 @@
             "Arn"
         ]
     },
-    "serviceName": "Cognito",
-    "useDefault": "manual",
-    "userPoolGroups": false,
+    "useDefault": "default",
+    "triggers": "{}",
     "userPoolGroupList": [],
-    "adminQueries": false,
-    "thirdPartyAuth": false,
-    "authProviders": [],
+    "serviceName": "Cognito",
+    "parentStack": {
+        "Ref": "AWS::StackId"
+    },
+    "permissions": [],
     "dependsOn": []
 }

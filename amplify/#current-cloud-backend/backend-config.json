@@ -1,6 +1,6 @@
 {
   "auth": {
-    "TailBass": {
+    "tailbass7454085c": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
