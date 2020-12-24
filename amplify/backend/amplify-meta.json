@@ -1,0 +1,66 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-tailbass-dev-165051-authRole",
+      "UnauthRoleArn": "arn:aws:iam::917558688231:role/amplify-tailbass-dev-165051-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::917558688231:role/amplify-tailbass-dev-165051-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-tailbass-dev-165051-deployment",
+      "UnauthRoleName": "amplify-tailbass-dev-165051-unauthRole",
+      "StackName": "amplify-tailbass-dev-165051",
+      "StackId": "arn:aws:cloudformation:us-east-1:917558688231:stack/amplify-tailbass-dev-165051/5c776fc0-3d63-11eb-aab6-126bf0867249",
+      "AmplifyAppId": "d352m2f2li7ghg"
+    }
+  },
+  "auth": {
+    "TailBass": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false,
+      "output": {
+        "AppClientSecret": "pmapefhd6icjrdj9vl0u073cl7q6qpmak61t3ff90gm9sfck64l",
+        "UserPoolId": "us-east-1_7PyxO6E8F",
+        "AppClientIDWeb": "4ekrqngi8na6eu8to3oog3s495",
+        "AppClientID": "d39pd0oocdtukjn5pb27iog7v",
+        "IdentityPoolId": "us-east-1:151c0ffb-0542-49fa-9772-daaa4e06f08e",
+        "IdentityPoolName": "testAuthIdentityPool__dev",
+        "UserPoolName": "TailBass"
+      },
+      "lastPushTimeStamp": "2020-12-22T19:18:38.270Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-tailbass-dev-165051-deployment/amplify-cfn-templates/auth/TailBass-cloudformation-template.yml",
+        "logicalId": "authTailBass"
+      }
+    }
+  },
+  "api": {
+    "TailBass": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+            "userPoolConfig": {
+              "userPoolId": "authTailBass"
+            }
+          },
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AWS_IAM"
+            }
+          ]
+        },
+        "GraphQLAPIIdOutput": "agsk4dcfmnbtlc65bfk7h2qq24",
+        "GraphQLAPIEndpointOutput": "https://wsga6myxjbdwxa3ozvcs3aprri.appsync-api.us-east-1.amazonaws.com/graphql"
+      },
+      "lastPushTimeStamp": "2020-12-22T19:18:38.280Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-tailbass-dev-165051-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "logicalId": "apiTailBass"
+      },
+      "lastPushDirHash": "E6ehTOppqewrLv4tndu7Iip5Ow0="
+    }
+  }
+}

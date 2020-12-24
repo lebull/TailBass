@@ -1,0 +1,8 @@
+type Profile @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  userid: String!
+  djname: String
+  genre: String
+  untitledfield: String
+}
+ 
