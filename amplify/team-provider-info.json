@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-tailbass-dev-165051-authRole",
+      "UnauthRoleArn": "arn:aws:iam::917558688231:role/amplify-tailbass-dev-165051-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::917558688231:role/amplify-tailbass-dev-165051-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-tailbass-dev-165051-deployment",
+      "UnauthRoleName": "amplify-tailbass-dev-165051-unauthRole",
+      "StackName": "amplify-tailbass-dev-165051",
+      "StackId": "arn:aws:cloudformation:us-east-1:917558688231:stack/amplify-tailbass-dev-165051/5c776fc0-3d63-11eb-aab6-126bf0867249",
+      "AmplifyAppId": "d352m2f2li7ghg"
+    },
+    "categories": {
+      "auth": {
+        "TailBass": {}
+      }
+    }
+  }
+}

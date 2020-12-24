@@ -18,20 +18,21 @@
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
       "customAuth": false,
-      "output": {
-        "AppClientSecret": "pmapefhd6icjrdj9vl0u073cl7q6qpmak61t3ff90gm9sfck64l",
-        "UserPoolId": "us-east-1_7PyxO6E8F",
-        "AppClientIDWeb": "4ekrqngi8na6eu8to3oog3s495",
-        "AppClientID": "d39pd0oocdtukjn5pb27iog7v",
-        "IdentityPoolId": "us-east-1:151c0ffb-0542-49fa-9772-daaa4e06f08e",
-        "IdentityPoolName": "testAuthIdentityPool__dev",
-        "UserPoolName": "TailBass"
-      },
-      "lastPushTimeStamp": "2020-12-22T19:18:38.270Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-tailbass-dev-165051-deployment/amplify-cfn-templates/auth/TailBass-cloudformation-template.yml",
         "logicalId": "authTailBass"
-      }
+      },
+      "lastPushTimeStamp": "2020-12-24T17:24:52.479Z",
+      "output": {
+        "AppClientSecret": "d9hq1963qnqo6v0jlgmku5eajcg7lnoq12bhkba4f2puqvbvpdm",
+        "UserPoolId": "us-east-1_kC9cWS0s3",
+        "AppClientIDWeb": "2j31c4k48d26hins3mshu98bcv",
+        "AppClientID": "5ahdom7acja4u05b23ru17ss82",
+        "IdentityPoolId": "us-east-1:919ecfed-fb05-4de6-afd5-15f9cd3ecc47",
+        "IdentityPoolName": "testAuthIdentityPool__dev",
+        "UserPoolName": "TailBass"
+      },
+      "lastPushDirHash": "avwfe2YObWi/fwg6fZiqcqUa8U8="
     }
   },
   "api": {
@@ -41,9 +42,10 @@
       "output": {
         "authConfig": {
           "defaultAuthentication": {
-            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-            "userPoolConfig": {
-              "userPoolId": "authTailBass"
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 30,
+              "description": "api key description"
             }
           },
           "additionalAuthenticationProviders": [
@@ -53,14 +55,14 @@
           ]
         },
         "GraphQLAPIIdOutput": "agsk4dcfmnbtlc65bfk7h2qq24",
-        "GraphQLAPIEndpointOutput": "https://wsga6myxjbdwxa3ozvcs3aprri.appsync-api.us-east-1.amazonaws.com/graphql"
+        "GraphQLAPIEndpointOutput": "https://wsga6myxjbdwxa3ozvcs3aprri.appsync-api.us-east-1.amazonaws.com/graphql",
+        "GraphQLAPIKeyOutput": "da2-eikddfwesvbodmydiog5nro7gu"
       },
-      "lastPushTimeStamp": "2020-12-22T19:18:38.280Z",
+      "lastPushTimeStamp": "2020-12-24T17:24:52.484Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-tailbass-dev-165051-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apiTailBass"
-      },
-      "lastPushDirHash": "E6ehTOppqewrLv4tndu7Iip5Ow0="
+      }
     }
   }
 }

@@ -1,28 +1,28 @@
 {
     "identityPoolName": "testAuthIdentityPool",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "tailbaaaa9aeec",
+    "resourceNameTruncated": "tailba217bae74",
     "userPoolName": "TailBass",
     "autoVerifiedAttributes": [
-        "email"
+        "phone_number"
     ],
     "mfaConfiguration": "OFF",
     "mfaTypes": [
         "SMS Text Message"
     ],
     "smsAuthenticationMessage": "Your authentication code is {####}",
-    "smsVerificationMessage": "Your verification code is {####}",
-    "emailVerificationSubject": "Forgot password code: {####}",
-    "emailVerificationMessage": "Forgot password code: {####}",
+    "smsVerificationMessage": "Forgot password code: {####}",
+    "emailVerificationSubject": "Your verification code",
+    "emailVerificationMessage": "Your verification code is {####}",
     "defaultPasswordPolicy": false,
     "passwordPolicyMinLength": 8,
     "passwordPolicyCharacters": [
         "Requires Lowercase",
         "Requires Numbers",
-        "Requires Symbols",
         "Requires Uppercase"
     ],
     "requiredAttributes": [
+        "preferred_username",
         "email"
     ],
     "userpoolClientGenerateSecret": true,
@@ -33,9 +33,9 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "TailBaaaa9aeec_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "TailBa217bae74_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "aaa9aeec",
+    "sharedId": "217bae74",
     "resourceName": "TailBass",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
@@ -51,9 +51,6 @@
         ]
     },
     "serviceName": "Cognito",
-    "usernameAttributes": [
-        "email"
-    ],
     "useDefault": "manual",
     "userPoolGroups": false,
     "userPoolGroupList": [],

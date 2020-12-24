@@ -1,14 +1,8 @@
 {
-    "CreateAPIKey": 0,
+    "CreateAPIKey": 1,
     "AppSyncApiName": "TailBass",
     "DynamoDBBillingMode": "PAY_PER_REQUEST",
     "DynamoDBEnableServerSideEncryption": false,
-    "AuthCognitoUserPoolId": {
-        "Fn::GetAtt": [
-            "authTailBass",
-            "Outputs.UserPoolId"
-        ]
-    },
     "S3DeploymentBucket": "amplify-tailbass-dev-165051-deployment",
-    "S3DeploymentRootKey": "amplify-appsync-files/74ac3158fc0d842395427d75ce6d2bfa446ffeff"
+    "S3DeploymentRootKey": "amplify-appsync-files/6af0b2a4b528790c9ac1cd5b894053ffd6baf78a"
 }

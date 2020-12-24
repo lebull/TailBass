@@ -1,4 +1,4 @@
-type Profile @model @auth(rules: [{allow: private}]) {
+type Profile @model @auth(rules: [{allow: public}]) {
   id: ID!
   userid: String!
   djname: String
