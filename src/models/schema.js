@@ -10,8 +10,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "userid": {
-                    "name": "userid",
+                "username": {
+                    "name": "username",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
@@ -30,13 +30,6 @@ export const schema = {
                     "type": "String",
                     "isRequired": false,
                     "attributes": []
-                },
-                "untitledfield": {
-                    "name": "untitledfield",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
                 }
             },
             "syncable": true,
@@ -51,7 +44,10 @@ export const schema = {
                     "properties": {
                         "rules": [
                             {
-                                "allow": "public",
+                                "provider": "userPools",
+                                "ownerField": "username",
+                                "allow": "owner",
+                                "identityClaim": "cognito:username",
                                 "operations": [
                                     "create",
                                     "update",
@@ -67,5 +63,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "4958cdb5a9e89c033a02bbbdf9209443"
+    "version": "09eb6269c4c161d421d4eeef61e5ee9e"
 };

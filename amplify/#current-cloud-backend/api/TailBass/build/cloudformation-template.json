@@ -168,7 +168,16 @@
                         }
                     ]
                 },
-                "AuthenticationType": "API_KEY",
+                "AuthenticationType": "AMAZON_COGNITO_USER_POOLS",
+                "UserPoolConfig": {
+                    "UserPoolId": {
+                        "Ref": "AuthCognitoUserPoolId"
+                    },
+                    "AwsRegion": {
+                        "Ref": "AWS::Region"
+                    },
+                    "DefaultAction": "ALLOW"
+                },
                 "AdditionalAuthenticationProviders": [
                     {
                         "AuthenticationType": "AWS_IAM"
@@ -185,14 +194,13 @@
                         "ApiId"
                     ]
                 },
-                "Description": "api key description",
                 "Expires": {
                     "Fn::If": [
                         "APIKeyExpirationEpochIsPositive",
                         {
                             "Ref": "APIKeyExpirationEpoch"
                         },
-                        1611421757
+                        1609606677
                     ]
                 }
             },

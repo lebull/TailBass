@@ -1,9 +1,8 @@
-type Profile @aws_iam @aws_api_key {
+type Profile @aws_iam @aws_cognito_user_pools {
   id: ID!
-  userid: String!
+  username: String!
   djname: String
   genre: String
-  untitledfield: String
   _version: Int!
   _deleted: Boolean
   _lastChangedAt: AWSTimestamp!
@@ -16,7 +15,7 @@ enum ModelSortDirection {
   DESC
 }
 
-type ModelProfileConnection @aws_api_key @aws_iam {
+type ModelProfileConnection @aws_iam @aws_cognito_user_pools {
   items: [Profile]
   nextToken: String
   startedAt: AWSTimestamp
@@ -97,10 +96,9 @@ input ModelSizeInput {
 
 input ModelProfileFilterInput {
   id: ModelIDInput
-  userid: ModelStringInput
+  username: ModelStringInput
   djname: ModelStringInput
   genre: ModelStringInput
-  untitledfield: ModelStringInput
   and: [ModelProfileFilterInput]
   or: [ModelProfileFilterInput]
   not: ModelProfileFilterInput
@@ -120,26 +118,24 @@ enum ModelAttributeTypes {
 }
 
 type Query {
-  getProfile(id: ID!): Profile @aws_api_key @aws_iam
-  listProfiles(filter: ModelProfileFilterInput, limit: Int, nextToken: String): ModelProfileConnection @aws_api_key @aws_iam
-  syncProfiles(filter: ModelProfileFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelProfileConnection @aws_api_key @aws_iam
+  getProfile(id: ID!): Profile @aws_iam @aws_cognito_user_pools
+  listProfiles(filter: ModelProfileFilterInput, limit: Int, nextToken: String): ModelProfileConnection @aws_iam @aws_cognito_user_pools
+  syncProfiles(filter: ModelProfileFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelProfileConnection @aws_iam @aws_cognito_user_pools
 }
 
 input CreateProfileInput {
   id: ID
-  userid: String!
+  username: String!
   djname: String
   genre: String
-  untitledfield: String
   _version: Int
 }
 
 input UpdateProfileInput {
   id: ID!
-  userid: String
+  username: String
   djname: String
   genre: String
-  untitledfield: String
   _version: Int
 }
 
@@ -149,23 +145,21 @@ input DeleteProfileInput {
 }
 
 type Mutation {
-  createProfile(input: CreateProfileInput!, condition: ModelProfileConditionInput): Profile @aws_api_key @aws_iam
-  updateProfile(input: UpdateProfileInput!, condition: ModelProfileConditionInput): Profile @aws_api_key @aws_iam
-  deleteProfile(input: DeleteProfileInput!, condition: ModelProfileConditionInput): Profile @aws_api_key @aws_iam
+  createProfile(input: CreateProfileInput!, condition: ModelProfileConditionInput): Profile @aws_iam @aws_cognito_user_pools
+  updateProfile(input: UpdateProfileInput!, condition: ModelProfileConditionInput): Profile @aws_iam @aws_cognito_user_pools
+  deleteProfile(input: DeleteProfileInput!, condition: ModelProfileConditionInput): Profile @aws_iam @aws_cognito_user_pools
 }
 
 input ModelProfileConditionInput {
-  userid: ModelStringInput
   djname: ModelStringInput
   genre: ModelStringInput
-  untitledfield: ModelStringInput
   and: [ModelProfileConditionInput]
   or: [ModelProfileConditionInput]
   not: ModelProfileConditionInput
 }
 
 type Subscription {
-  onCreateProfile: Profile @aws_subscribe(mutations: ["createProfile"]) @aws_api_key @aws_iam
-  onUpdateProfile: Profile @aws_subscribe(mutations: ["updateProfile"]) @aws_api_key @aws_iam
-  onDeleteProfile: Profile @aws_subscribe(mutations: ["deleteProfile"]) @aws_api_key @aws_iam
+  onCreateProfile(username: String): Profile @aws_subscribe(mutations: ["createProfile"]) @aws_iam @aws_cognito_user_pools
+  onUpdateProfile(username: String): Profile @aws_subscribe(mutations: ["updateProfile"]) @aws_iam @aws_cognito_user_pools
+  onDeleteProfile(username: String): Profile @aws_subscribe(mutations: ["deleteProfile"]) @aws_iam @aws_cognito_user_pools
 }

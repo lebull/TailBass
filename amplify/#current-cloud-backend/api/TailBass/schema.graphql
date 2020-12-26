@@ -1,8 +1,12 @@
-type Profile @model @auth(rules: [{allow: public}]) {
+type Profile 
+  @model 
+  @auth(rules: [
+    {allow: owner, ownerField: "username"}
+  ])
+{
   id: ID!
-  userid: String!
+  username: String!
   djname: String
   genre: String
-  untitledfield: String
 }
  
