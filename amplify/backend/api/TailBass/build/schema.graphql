@@ -8,6 +8,7 @@ type Profile @aws_iam @aws_cognito_user_pools {
   _lastChangedAt: AWSTimestamp!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
+  owner: String
 }
 
 enum ModelSortDirection {
@@ -145,12 +146,13 @@ input DeleteProfileInput {
 }
 
 type Mutation {
+  deleteProfile(input: DeleteProfileInput!, condition: ModelProfileConditionInput): Profile
   createProfile(input: CreateProfileInput!, condition: ModelProfileConditionInput): Profile @aws_iam @aws_cognito_user_pools
   updateProfile(input: UpdateProfileInput!, condition: ModelProfileConditionInput): Profile @aws_iam @aws_cognito_user_pools
-  deleteProfile(input: DeleteProfileInput!, condition: ModelProfileConditionInput): Profile @aws_iam @aws_cognito_user_pools
 }
 
 input ModelProfileConditionInput {
+  username: ModelStringInput
   djname: ModelStringInput
   genre: ModelStringInput
   and: [ModelProfileConditionInput]
@@ -159,7 +161,17 @@ input ModelProfileConditionInput {
 }
 
 type Subscription {
-  onCreateProfile(username: String): Profile @aws_subscribe(mutations: ["createProfile"]) @aws_iam @aws_cognito_user_pools
-  onUpdateProfile(username: String): Profile @aws_subscribe(mutations: ["updateProfile"]) @aws_iam @aws_cognito_user_pools
-  onDeleteProfile(username: String): Profile @aws_subscribe(mutations: ["deleteProfile"]) @aws_iam @aws_cognito_user_pools
+  onCreateProfile: Profile @aws_subscribe(mutations: ["createProfile"]) @aws_iam @aws_cognito_user_pools
+  onUpdateProfile: Profile @aws_subscribe(mutations: ["updateProfile"]) @aws_iam @aws_cognito_user_pools
+  onDeleteProfile: Profile @aws_subscribe(mutations: ["deleteProfile"]) @aws_iam @aws_cognito_user_pools
+}
+
+input ModelIDKeyConditionInput {
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  between: [ID]
+  beginsWith: ID
 }

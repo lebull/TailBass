@@ -129,6 +129,10 @@
                     {
                         "AttributeName": "id",
                         "AttributeType": "S"
+                    },
+                    {
+                        "AttributeName": "username",
+                        "AttributeType": "S"
                     }
                 ],
                 "StreamSpecification": {
@@ -182,7 +186,41 @@
                 "TimeToLiveSpecification": {
                     "AttributeName": "_ttl",
                     "Enabled": true
-                }
+                },
+                "GlobalSecondaryIndexes": [
+                    {
+                        "IndexName": "byUsername",
+                        "KeySchema": [
+                            {
+                                "AttributeName": "username",
+                                "KeyType": "HASH"
+                            },
+                            {
+                                "AttributeName": "id",
+                                "KeyType": "RANGE"
+                            }
+                        ],
+                        "Projection": {
+                            "ProjectionType": "ALL"
+                        },
+                        "ProvisionedThroughput": {
+                            "Fn::If": [
+                                "ShouldUsePayPerRequestBilling",
+                                {
+                                    "Ref": "AWS::NoValue"
+                                },
+                                {
+                                    "ReadCapacityUnits": {
+                                        "Ref": "DynamoDBModelTableReadIOPS"
+                                    },
+                                    "WriteCapacityUnits": {
+                                        "Ref": "DynamoDBModelTableWriteIOPS"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
             },
             "DeletionPolicy": "Delete"
         },
@@ -883,183 +921,6 @@
                                     [
                                         "Mutation",
                                         "deleteProfile",
-                                        "res",
-                                        "vtl"
-                                    ]
-                                ]
-                            }
-                        }
-                    ]
-                }
-            }
-        },
-        "SubscriptiononCreateProfileResolver": {
-            "Type": "AWS::AppSync::Resolver",
-            "Properties": {
-                "ApiId": {
-                    "Ref": "GetAttGraphQLAPIApiId"
-                },
-                "DataSourceName": "NONE",
-                "FieldName": "onCreateProfile",
-                "TypeName": "Subscription",
-                "RequestMappingTemplateS3Location": {
-                    "Fn::Sub": [
-                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
-                        {
-                            "S3DeploymentBucket": {
-                                "Ref": "S3DeploymentBucket"
-                            },
-                            "S3DeploymentRootKey": {
-                                "Ref": "S3DeploymentRootKey"
-                            },
-                            "ResolverFileName": {
-                                "Fn::Join": [
-                                    ".",
-                                    [
-                                        "Subscription",
-                                        "onCreateProfile",
-                                        "req",
-                                        "vtl"
-                                    ]
-                                ]
-                            }
-                        }
-                    ]
-                },
-                "ResponseMappingTemplateS3Location": {
-                    "Fn::Sub": [
-                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
-                        {
-                            "S3DeploymentBucket": {
-                                "Ref": "S3DeploymentBucket"
-                            },
-                            "S3DeploymentRootKey": {
-                                "Ref": "S3DeploymentRootKey"
-                            },
-                            "ResolverFileName": {
-                                "Fn::Join": [
-                                    ".",
-                                    [
-                                        "Subscription",
-                                        "onCreateProfile",
-                                        "res",
-                                        "vtl"
-                                    ]
-                                ]
-                            }
-                        }
-                    ]
-                }
-            }
-        },
-        "SubscriptiononUpdateProfileResolver": {
-            "Type": "AWS::AppSync::Resolver",
-            "Properties": {
-                "ApiId": {
-                    "Ref": "GetAttGraphQLAPIApiId"
-                },
-                "DataSourceName": "NONE",
-                "FieldName": "onUpdateProfile",
-                "TypeName": "Subscription",
-                "RequestMappingTemplateS3Location": {
-                    "Fn::Sub": [
-                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
-                        {
-                            "S3DeploymentBucket": {
-                                "Ref": "S3DeploymentBucket"
-                            },
-                            "S3DeploymentRootKey": {
-                                "Ref": "S3DeploymentRootKey"
-                            },
-                            "ResolverFileName": {
-                                "Fn::Join": [
-                                    ".",
-                                    [
-                                        "Subscription",
-                                        "onUpdateProfile",
-                                        "req",
-                                        "vtl"
-                                    ]
-                                ]
-                            }
-                        }
-                    ]
-                },
-                "ResponseMappingTemplateS3Location": {
-                    "Fn::Sub": [
-                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
-                        {
-                            "S3DeploymentBucket": {
-                                "Ref": "S3DeploymentBucket"
-                            },
-                            "S3DeploymentRootKey": {
-                                "Ref": "S3DeploymentRootKey"
-                            },
-                            "ResolverFileName": {
-                                "Fn::Join": [
-                                    ".",
-                                    [
-                                        "Subscription",
-                                        "onUpdateProfile",
-                                        "res",
-                                        "vtl"
-                                    ]
-                                ]
-                            }
-                        }
-                    ]
-                }
-            }
-        },
-        "SubscriptiononDeleteProfileResolver": {
-            "Type": "AWS::AppSync::Resolver",
-            "Properties": {
-                "ApiId": {
-                    "Ref": "GetAttGraphQLAPIApiId"
-                },
-                "DataSourceName": "NONE",
-                "FieldName": "onDeleteProfile",
-                "TypeName": "Subscription",
-                "RequestMappingTemplateS3Location": {
-                    "Fn::Sub": [
-                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
-                        {
-                            "S3DeploymentBucket": {
-                                "Ref": "S3DeploymentBucket"
-                            },
-                            "S3DeploymentRootKey": {
-                                "Ref": "S3DeploymentRootKey"
-                            },
-                            "ResolverFileName": {
-                                "Fn::Join": [
-                                    ".",
-                                    [
-                                        "Subscription",
-                                        "onDeleteProfile",
-                                        "req",
-                                        "vtl"
-                                    ]
-                                ]
-                            }
-                        }
-                    ]
-                },
-                "ResponseMappingTemplateS3Location": {
-                    "Fn::Sub": [
-                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
-                        {
-                            "S3DeploymentBucket": {
-                                "Ref": "S3DeploymentBucket"
-                            },
-                            "S3DeploymentRootKey": {
-                                "Ref": "S3DeploymentRootKey"
-                            },
-                            "ResolverFileName": {
-                                "Fn::Join": [
-                                    ".",
-                                    [
-                                        "Subscription",
-                                        "onDeleteProfile",
                                         "res",
                                         "vtl"
                                     ]

@@ -1,8 +1,8 @@
-type Profile 
-  @model 
-  @auth(rules: [
-    {allow: owner, ownerField: "username"}
-  ])
+type Profile @model
+@auth(rules: [
+  {allow: private, operations: [read, update, create]},
+  {allow: owner, operations: [read]}])
+@key(name: "byUsername", fields: ["username", "id"])
 {
   id: ID!
   username: String!
