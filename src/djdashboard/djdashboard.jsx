@@ -21,7 +21,6 @@ function DjDashBoard() {
         const profilesResult = await API.graphql(graphqlOperation(profilesByUser, {username: userInfo.username}));
 
         let profile = profilesResult.data.profilesByUser.items[0];
-
         
         setState({
           username: userInfo.username,
