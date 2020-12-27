@@ -18,14 +18,15 @@ function DjDashBoard() {
   useEffect(() => {
       const setUserInfo = async () => {
         const userInfo = await Auth.currentUserInfo();
-
-        // const profiles = await DataStore.query(profilesByUser);//({username: userInfo.username})
         const profilesResult = await API.graphql(graphqlOperation(profilesByUser, {username: userInfo.username}));
-        const profiles = profilesResult.data.profilesByUser.items;
+
+        let profile = profilesResult.data.profilesByUser.items[0];
+
+        
         setState({
           username: userInfo.username,
           userinfo: userInfo.attributes,
-          profile: profiles[0],
+          profile: profile,
         });
       };
 
