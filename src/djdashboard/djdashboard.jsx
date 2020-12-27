@@ -6,6 +6,7 @@ import { createProfile } from "../graphql/mutations";
 
 
 import { Profile } from "../models";
+import { DjInfo } from './DjInfo';
 
 function DjDashBoard() {
 
@@ -46,9 +47,9 @@ function DjDashBoard() {
   return (
     <>
       <AmplifySignOut />
-      <p>I am {state.username}</p>
-      <p>DJName: {state.profile?.djname}</p>
-      <p>Genre: {state.profile?.genre}</p>
+      <p>{state.username}</p>
+      { state.loading ? <p>Loading...</p> : ""}
+      { state.profile ? <DjInfo profile={state.profile} /> : ""}
     </>
   );
 }
