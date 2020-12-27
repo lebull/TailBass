@@ -41,6 +41,40 @@ export const listProfiles = /* GraphQL */ `
     }
   }
 `;
+export const profilesByUser = /* GraphQL */ `
+  query ProfilesByUser(
+    $username: String
+    $id: ModelIDKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelProfileFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    profilesByUser(
+      username: $username
+      id: $id
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        username
+        djname
+        genre
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const syncProfiles = /* GraphQL */ `
   query SyncProfiles(
     $filter: ModelProfileFilterInput

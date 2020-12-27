@@ -46,7 +46,8 @@ export const schema = {
                         "fields": [
                             "username",
                             "id"
-                        ]
+                        ],
+                        "queryField": "profilesByUser"
                     }
                 },
                 {
@@ -78,5 +79,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "a31ad8f3837f6226eca082eb3044f795"
+    "version": "66259fb5038ec7b696db31769d2abef5"
 };

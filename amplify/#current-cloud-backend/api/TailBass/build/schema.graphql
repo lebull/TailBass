@@ -121,6 +121,7 @@ enum ModelAttributeTypes {
 type Query {
   getProfile(id: ID!): Profile @aws_iam @aws_cognito_user_pools
   listProfiles(filter: ModelProfileFilterInput, limit: Int, nextToken: String): ModelProfileConnection @aws_iam @aws_cognito_user_pools
+  profilesByUser(username: String, id: ModelIDKeyConditionInput, sortDirection: ModelSortDirection, filter: ModelProfileFilterInput, limit: Int, nextToken: String): ModelProfileConnection @aws_iam @aws_cognito_user_pools
   syncProfiles(filter: ModelProfileFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelProfileConnection @aws_iam @aws_cognito_user_pools
 }
 

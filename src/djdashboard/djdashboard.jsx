@@ -1,9 +1,7 @@
-import { DataStore } from '@aws-amplify/datastore';
-import { Profile } from '../models';
-
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
-import { Auth } from 'aws-amplify';
+import { API, graphqlOperation, Auth } from 'aws-amplify';
 import { useEffect, useState } from 'react';
+import { profilesByUser } from '../graphql/queries';
 
 function DjDashBoard() {
 
@@ -20,12 +18,15 @@ function DjDashBoard() {
   useEffect(() => {
       const setUserInfo = async () => {
         const userInfo = await Auth.currentUserInfo();
+
+        // const profiles = await DataStore.query(profilesByUser);//({username: userInfo.username})
+        const profilesResult = await API.graphql(graphqlOperation(profilesByUser, {username: userInfo.username}));
+        const profiles = profilesResult.data.profilesByUser.items;
         setState({
           username: userInfo.username,
           userinfo: userInfo.attributes,
+          profile: profiles[0],
         });
-        const models = await DataStore.query(Profile({username: userInfo.username}));
-        console.log(models);
       };
 
       setUserInfo();
@@ -37,6 +38,8 @@ function DjDashBoard() {
     <>
       <AmplifySignOut />
       <p>I am {state.username}</p>
+      <p>DJName: {state.profile?.djname}</p>
+      <p>Genre: {state.profile?.genre}</p>
     </>
   );
 }

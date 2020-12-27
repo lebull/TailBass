@@ -2,7 +2,7 @@ type Profile @model
 @auth(rules: [
   {allow: private, operations: [read, update, create]},
   {allow: owner, operations: [read]}])
-@key(name: "byUsername", fields: ["username", "id"])
+@key(name: "byUsername", fields: ["username", "id"], queryField: "profilesByUser")
 {
   id: ID!
   username: String!
