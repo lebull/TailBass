@@ -9,7 +9,7 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import DjDashBoard from './djdashboard/djdashboard';
+import DjDashBoard from './djdashboard/DjDashboard';
 
 Amplify.configure(awsconfig);
 
