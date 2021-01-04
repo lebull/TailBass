@@ -8,7 +8,11 @@ export const DjInfo = ({profile, onProfileChange}) => {
 
     const handleSubmit = (e) => {
         if(onProfileChange){
-            onProfileChange({profile: state.profile});
+            onProfileChange({profile: {
+                id: state.profile.id,
+                djname: state.profile.djname, 
+                genre: state.profile.genre,
+            }});
         }else{
             console.warn("onProfileChange is not bound.");
         }
@@ -26,7 +30,7 @@ export const DjInfo = ({profile, onProfileChange}) => {
                 <label>Genre</label>
                 <input value={state.profile.genre} onChange={(e) => handleProfileValueChange("genre", e.target.value)}/>
             </div>
-            <button type="submit">Submit</button>
+            <button type="submit">Save</button>
         </form>
     </div>
 }

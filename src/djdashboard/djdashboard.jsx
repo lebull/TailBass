@@ -2,18 +2,36 @@ import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { API, graphqlOperation, Auth } from 'aws-amplify';
 import { useEffect, useState } from 'react';
 import { profilesByUser } from '../graphql/queries';
-import { createProfile } from "../graphql/mutations";
-
+import { createProfile, updateProfile } from "../graphql/mutations";
 
 import { Profile } from "../models";
 import { DjInfo } from './DjInfo';
 
 function DjDashBoard() {
-
   const [state, setState] = useState({
     loading: true,
     error: null,
   });
+
+  //TODO:  Does this need to be async?
+  const createNewProfile = async ({username}) => {
+    const newProfile = new Profile({
+      "username": username,
+      "djname": "Lorem ipsum dolor sit amet",
+      "genre": "Lorem ipsum dolor sit amet"
+    });
+    return await API.graphql(graphqlOperation(createProfile, {input: newProfile}));
+  }
+
+  const onProfileSaved = async ({profile}) => {
+    try {
+      await API.graphql(graphqlOperation(updateProfile, {input: { ...profile }}));
+      alert("Changes Saved");
+    } catch (e) {
+      alert(e);
+    }
+
+  }
 
   useEffect(() => {
       const setUserInfo = async () => {
@@ -23,12 +41,7 @@ function DjDashBoard() {
         let profile = profilesResult.data.profilesByUser.items[0];
 
         if(!profile){
-          const newProfile = new Profile({
-            "username": userInfo.username,
-            "djname": "Lorem ipsum dolor sit amet",
-            "genre": "Lorem ipsum dolor sit amet"
-          });
-          profile = await API.graphql(graphqlOperation(createProfile, {input: newProfile}));
+          profile = createNewProfile({username: userInfo.username})
         }
 
         setState({
@@ -49,7 +62,7 @@ function DjDashBoard() {
       <AmplifySignOut />
       <p>{state.username}</p>
       { state.loading ? <p>Loading...</p> : ""}
-      { state.profile ? <DjInfo profile={state.profile} /> : ""}
+      { state.profile ? <DjInfo profile={state.profile} onProfileChange={onProfileSaved}/> : ""}
     </>
   );
 }
