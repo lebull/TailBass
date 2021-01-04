@@ -25,10 +25,10 @@ function DjDashBoard() {
 
   const onProfileSaved = async ({profile}) => {
     try {
-      await API.graphql(graphqlOperation(updateProfile, {input: { ...profile }}));
+      await API.graphql(graphqlOperation(updateProfile, { input: profile }));
       alert("Changes Saved");
     } catch (e) {
-      alert(e);
+      alert(e.errors.map(error => error.message).join("\n"));
     }
 
   }

@@ -194,6 +194,10 @@
                             {
                                 "AttributeName": "username",
                                 "KeyType": "HASH"
+                            },
+                            {
+                                "AttributeName": "id",
+                                "KeyType": "RANGE"
                             }
                         ],
                         "Projection": {

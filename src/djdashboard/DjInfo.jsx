@@ -4,7 +4,7 @@ export const DjInfo = ({profile, onProfileChange}) => {
 
     const [state, setState] = useState({profile});
 
-    const handleProfileValueChange = (fieldname, value) => setState({...state, profile: { ...profile, [fieldname]: value }})
+    const handleProfileValueChange = (fieldname, value) => setState({...state, profile: { ...state.profile, [fieldname]: value }})
 
     const handleSubmit = (e) => {
         if(onProfileChange){

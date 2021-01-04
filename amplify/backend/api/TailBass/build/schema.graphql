@@ -121,7 +121,7 @@ enum ModelAttributeTypes {
 type Query {
   getProfile(id: ID!): Profile @aws_iam @aws_cognito_user_pools
   listProfiles(filter: ModelProfileFilterInput, limit: Int, nextToken: String): ModelProfileConnection @aws_iam @aws_cognito_user_pools
-  profilesByUser(username: String, sortDirection: ModelSortDirection, filter: ModelProfileFilterInput, limit: Int, nextToken: String): ModelProfileConnection @aws_iam @aws_cognito_user_pools
+  profilesByUser(username: String, id: ModelIDKeyConditionInput, sortDirection: ModelSortDirection, filter: ModelProfileFilterInput, limit: Int, nextToken: String): ModelProfileConnection @aws_iam @aws_cognito_user_pools
   syncProfiles(filter: ModelProfileFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelProfileConnection @aws_iam @aws_cognito_user_pools
 }
 
@@ -165,4 +165,14 @@ type Subscription {
   onCreateProfile: Profile @aws_subscribe(mutations: ["createProfile"]) @aws_iam @aws_cognito_user_pools
   onUpdateProfile: Profile @aws_subscribe(mutations: ["updateProfile"]) @aws_iam @aws_cognito_user_pools
   onDeleteProfile: Profile @aws_subscribe(mutations: ["deleteProfile"]) @aws_iam @aws_cognito_user_pools
+}
+
+input ModelIDKeyConditionInput {
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  between: [ID]
+  beginsWith: ID
 }

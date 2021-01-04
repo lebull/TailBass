@@ -57,9 +57,7 @@ export const schema = {
                             {
                                 "allow": "private",
                                 "operations": [
-                                    "read",
-                                    "update",
-                                    "create"
+                                    "read"
                                 ]
                             },
                             {
@@ -67,7 +65,9 @@ export const schema = {
                                 "ownerField": "owner",
                                 "allow": "owner",
                                 "operations": [
-                                    "read"
+                                    "read",
+                                    "update",
+                                    "create"
                                 ],
                                 "identityClaim": "cognito:username"
                             }
