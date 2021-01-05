@@ -6,7 +6,7 @@ import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplif
 
 export declare class Profile {
   readonly id: string;
-  readonly owner: string;
+  readonly owner?: string;
   readonly djname?: string;
   readonly genre?: string;
   constructor(init: ModelInit<Profile>);

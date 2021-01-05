@@ -1,11 +1,8 @@
 type Profile @aws_iam @aws_cognito_user_pools {
   id: ID!
-  owner: String!
+  owner: String
   djname: String
   genre: String
-  _version: Int!
-  _deleted: Boolean
-  _lastChangedAt: AWSTimestamp!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
 }
@@ -18,7 +15,6 @@ enum ModelSortDirection {
 type ModelProfileConnection @aws_iam @aws_cognito_user_pools {
   items: [Profile]
   nextToken: String
-  startedAt: AWSTimestamp
 }
 
 input ModelStringInput {
@@ -121,15 +117,13 @@ type Query {
   getProfile(id: ID!): Profile @aws_iam @aws_cognito_user_pools
   listProfiles(filter: ModelProfileFilterInput, limit: Int, nextToken: String): ModelProfileConnection @aws_iam @aws_cognito_user_pools
   profilesByOwner(owner: String, sortDirection: ModelSortDirection, filter: ModelProfileFilterInput, limit: Int, nextToken: String): ModelProfileConnection @aws_iam @aws_cognito_user_pools
-  syncProfiles(filter: ModelProfileFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelProfileConnection @aws_iam @aws_cognito_user_pools
 }
 
 input CreateProfileInput {
   id: ID
-  owner: String!
+  owner: String
   djname: String
   genre: String
-  _version: Int
 }
 
 input UpdateProfileInput {
@@ -137,21 +131,20 @@ input UpdateProfileInput {
   owner: String
   djname: String
   genre: String
-  _version: Int
 }
 
 input DeleteProfileInput {
   id: ID
-  _version: Int
 }
 
 type Mutation {
-  deleteProfile(input: DeleteProfileInput!, condition: ModelProfileConditionInput): Profile
   createProfile(input: CreateProfileInput!, condition: ModelProfileConditionInput): Profile @aws_iam @aws_cognito_user_pools
   updateProfile(input: UpdateProfileInput!, condition: ModelProfileConditionInput): Profile @aws_iam @aws_cognito_user_pools
+  deleteProfile(input: DeleteProfileInput!, condition: ModelProfileConditionInput): Profile @aws_iam @aws_cognito_user_pools
 }
 
 input ModelProfileConditionInput {
+  owner: ModelStringInput
   djname: ModelStringInput
   genre: ModelStringInput
   and: [ModelProfileConditionInput]

@@ -8,9 +8,6 @@ export const getProfile = /* GraphQL */ `
       owner
       djname
       genre
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -28,14 +25,10 @@ export const listProfiles = /* GraphQL */ `
         owner
         djname
         genre
-        _version
-        _deleted
-        _lastChangedAt
         createdAt
         updatedAt
       }
       nextToken
-      startedAt
     }
   }
 `;
@@ -59,43 +52,10 @@ export const profilesByOwner = /* GraphQL */ `
         owner
         djname
         genre
-        _version
-        _deleted
-        _lastChangedAt
         createdAt
         updatedAt
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncProfiles = /* GraphQL */ `
-  query SyncProfiles(
-    $filter: ModelProfileFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncProfiles(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        owner
-        djname
-        genre
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      nextToken
-      startedAt
     }
   }
 `;

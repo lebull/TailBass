@@ -14,7 +14,7 @@ export const schema = {
                     "name": "owner",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "djname": {
@@ -56,19 +56,11 @@ export const schema = {
                             {
                                 "allow": "private",
                                 "operations": [
-                                    "read"
-                                ]
-                            },
-                            {
-                                "provider": "userPools",
-                                "ownerField": "owner",
-                                "allow": "owner",
-                                "operations": [
                                     "create",
                                     "update",
+                                    "delete",
                                     "read"
-                                ],
-                                "identityClaim": "cognito:username"
+                                ]
                             }
                         ]
                     }

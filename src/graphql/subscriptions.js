@@ -8,9 +8,6 @@ export const onCreateProfile = /* GraphQL */ `
       owner
       djname
       genre
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -23,9 +20,6 @@ export const onUpdateProfile = /* GraphQL */ `
       owner
       djname
       genre
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -38,9 +32,6 @@ export const onDeleteProfile = /* GraphQL */ `
       owner
       djname
       genre
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }

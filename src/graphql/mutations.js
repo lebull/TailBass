@@ -1,24 +1,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const deleteProfile = /* GraphQL */ `
-  mutation DeleteProfile(
-    $input: DeleteProfileInput!
-    $condition: ModelProfileConditionInput
-  ) {
-    deleteProfile(input: $input, condition: $condition) {
-      id
-      owner
-      djname
-      genre
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const createProfile = /* GraphQL */ `
   mutation CreateProfile(
     $input: CreateProfileInput!
@@ -29,9 +11,6 @@ export const createProfile = /* GraphQL */ `
       owner
       djname
       genre
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -47,9 +26,21 @@ export const updateProfile = /* GraphQL */ `
       owner
       djname
       genre
-      _version
-      _deleted
-      _lastChangedAt
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteProfile = /* GraphQL */ `
+  mutation DeleteProfile(
+    $input: DeleteProfileInput!
+    $condition: ModelProfileConditionInput
+  ) {
+    deleteProfile(input: $input, condition: $condition) {
+      id
+      owner
+      djname
+      genre
       createdAt
       updatedAt
     }
