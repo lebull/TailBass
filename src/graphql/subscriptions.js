@@ -5,7 +5,7 @@ export const onCreateProfile = /* GraphQL */ `
   subscription OnCreateProfile {
     onCreateProfile {
       id
-      username
+      owner
       djname
       genre
       _version
@@ -13,7 +13,6 @@ export const onCreateProfile = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -21,7 +20,7 @@ export const onUpdateProfile = /* GraphQL */ `
   subscription OnUpdateProfile {
     onUpdateProfile {
       id
-      username
+      owner
       djname
       genre
       _version
@@ -29,7 +28,6 @@ export const onUpdateProfile = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -37,7 +35,7 @@ export const onDeleteProfile = /* GraphQL */ `
   subscription OnDeleteProfile {
     onDeleteProfile {
       id
-      username
+      owner
       djname
       genre
       _version
@@ -45,7 +43,6 @@ export const onDeleteProfile = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;

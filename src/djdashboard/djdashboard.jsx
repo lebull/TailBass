@@ -1,7 +1,7 @@
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { API, graphqlOperation, Auth } from 'aws-amplify';
 import { useEffect, useState } from 'react';
-import { profilesByUser } from '../graphql/queries';
+import { profilesByOwner } from '../graphql/queries';
 import { createProfile, updateProfile } from "../graphql/mutations";
 
 import { Profile } from "../models";
@@ -14,9 +14,9 @@ function DjDashBoard() {
   });
 
   //TODO:  Does this need to be async?
-  const createNewProfile = async ({username}) => {
+  const createNewProfile = async ({owner}) => {
     const newProfile = new Profile({
-      "username": username,
+      "owner": owner,
       "djname": "Lorem ipsum dolor sit amet",
       "genre": "Lorem ipsum dolor sit amet"
     });
@@ -36,18 +36,18 @@ function DjDashBoard() {
   useEffect(() => {
       const setUserInfo = async () => {
         const userInfo = await Auth.currentUserInfo();
-        const profilesResult = await API.graphql(graphqlOperation(profilesByUser, {username: userInfo.username}));
+        const profilesResult = await API.graphql(graphqlOperation(profilesByOwner, {owner: userInfo.owner}));
 
-        let profile = profilesResult.data.profilesByUser.items[0];
+        let profile = profilesResult.data.profilesByOwner.items[0];
 
         if(!profile){
-          profile = createNewProfile({username: userInfo.username})
+          profile = createNewProfile({owner: userInfo.owner})
         }
 
         setState({
           loading: false,
           error: null,
-          username: userInfo.username,
+          owner: userInfo.owner,
           userinfo: userInfo.attributes,
           profile: profile,
         });
@@ -60,7 +60,7 @@ function DjDashBoard() {
   return (
     <>
       <AmplifySignOut />
-      <p>{state.username}</p>
+      <p>{state.owner}</p>
       { state.loading ? <p>Loading...</p> : ""}
       { state.profile ? <DjInfo profile={state.profile} onProfileChange={onProfileSaved}/> : ""}
     </>

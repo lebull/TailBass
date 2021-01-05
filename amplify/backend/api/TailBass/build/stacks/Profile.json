@@ -131,7 +131,7 @@
                         "AttributeType": "S"
                     },
                     {
-                        "AttributeName": "username",
+                        "AttributeName": "owner",
                         "AttributeType": "S"
                     }
                 ],
@@ -189,15 +189,11 @@
                 },
                 "GlobalSecondaryIndexes": [
                     {
-                        "IndexName": "byUsername",
+                        "IndexName": "byOwner",
                         "KeySchema": [
                             {
-                                "AttributeName": "username",
+                                "AttributeName": "owner",
                                 "KeyType": "HASH"
-                            },
-                            {
-                                "AttributeName": "id",
-                                "KeyType": "RANGE"
                             }
                         ],
                         "Projection": {
@@ -931,7 +927,7 @@
                 }
             }
         },
-        "QueryprofilesByUserResolver": {
+        "QueryprofilesByOwnerResolver": {
             "Type": "AWS::AppSync::Resolver",
             "Properties": {
                 "ApiId": {
@@ -943,7 +939,7 @@
                         "Name"
                     ]
                 },
-                "FieldName": "profilesByUser",
+                "FieldName": "profilesByOwner",
                 "TypeName": "Query",
                 "RequestMappingTemplateS3Location": {
                     "Fn::Sub": [
@@ -960,7 +956,7 @@
                                     ".",
                                     [
                                         "Query",
-                                        "profilesByUser",
+                                        "profilesByOwner",
                                         "req",
                                         "vtl"
                                     ]
@@ -984,7 +980,7 @@
                                     ".",
                                     [
                                         "Query",
-                                        "profilesByUser",
+                                        "profilesByOwner",
                                         "res",
                                         "vtl"
                                     ]

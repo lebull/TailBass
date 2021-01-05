@@ -1,6 +1,6 @@
-type Profile @model @key(name: "byUsername", fields: ["username", "id"], queryField: "profilesByUser") @auth(rules: [{allow: private, operations: [read]}, {allow: owner, operations: [read, update, create]}]) {
+type Profile @model @key(name: "byOwner", fields: ["owner"], queryField: "profilesByOwner") @auth(rules: [{allow: private, operations: [read]}, {allow: owner, ownerField: "owner", operations: [create, update, read] }]) {
   id: ID!
-  username: String!
+  owner: String!
   djname: String
   genre: String
 }

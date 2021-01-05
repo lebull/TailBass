@@ -5,7 +5,7 @@ export const getProfile = /* GraphQL */ `
   query GetProfile($id: ID!) {
     getProfile(id: $id) {
       id
-      username
+      owner
       djname
       genre
       _version
@@ -13,7 +13,6 @@ export const getProfile = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -26,7 +25,7 @@ export const listProfiles = /* GraphQL */ `
     listProfiles(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        username
+        owner
         djname
         genre
         _version
@@ -34,25 +33,22 @@ export const listProfiles = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
-        owner
       }
       nextToken
       startedAt
     }
   }
 `;
-export const profilesByUser = /* GraphQL */ `
-  query ProfilesByUser(
-    $username: String
-    $id: ModelIDKeyConditionInput
+export const profilesByOwner = /* GraphQL */ `
+  query ProfilesByOwner(
+    $owner: String
     $sortDirection: ModelSortDirection
     $filter: ModelProfileFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    profilesByUser(
-      username: $username
-      id: $id
+    profilesByOwner(
+      owner: $owner
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -60,7 +56,7 @@ export const profilesByUser = /* GraphQL */ `
     ) {
       items {
         id
-        username
+        owner
         djname
         genre
         _version
@@ -68,7 +64,6 @@ export const profilesByUser = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
-        owner
       }
       nextToken
       startedAt
@@ -90,7 +85,7 @@ export const syncProfiles = /* GraphQL */ `
     ) {
       items {
         id
-        username
+        owner
         djname
         genre
         _version
@@ -98,7 +93,6 @@ export const syncProfiles = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
-        owner
       }
       nextToken
       startedAt

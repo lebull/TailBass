@@ -10,8 +10,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "username": {
-                    "name": "username",
+                "owner": {
+                    "name": "owner",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
@@ -42,12 +42,11 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
-                        "name": "byUsername",
+                        "name": "byOwner",
                         "fields": [
-                            "username",
-                            "id"
+                            "owner"
                         ],
-                        "queryField": "profilesByUser"
+                        "queryField": "profilesByOwner"
                     }
                 },
                 {
@@ -65,9 +64,9 @@ export const schema = {
                                 "ownerField": "owner",
                                 "allow": "owner",
                                 "operations": [
-                                    "read",
+                                    "create",
                                     "update",
-                                    "create"
+                                    "read"
                                 ],
                                 "identityClaim": "cognito:username"
                             }
@@ -79,5 +78,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "66259fb5038ec7b696db31769d2abef5"
+    "version": "84b74213ac7002c0ca9ff0200bb4a8ce"
 };

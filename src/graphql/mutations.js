@@ -8,7 +8,7 @@ export const deleteProfile = /* GraphQL */ `
   ) {
     deleteProfile(input: $input, condition: $condition) {
       id
-      username
+      owner
       djname
       genre
       _version
@@ -16,7 +16,6 @@ export const deleteProfile = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -27,7 +26,7 @@ export const createProfile = /* GraphQL */ `
   ) {
     createProfile(input: $input, condition: $condition) {
       id
-      username
+      owner
       djname
       genre
       _version
@@ -35,7 +34,6 @@ export const createProfile = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -46,7 +44,7 @@ export const updateProfile = /* GraphQL */ `
   ) {
     updateProfile(input: $input, condition: $condition) {
       id
-      username
+      owner
       djname
       genre
       _version
@@ -54,7 +52,6 @@ export const updateProfile = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
