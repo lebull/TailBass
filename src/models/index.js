@@ -4,8 +4,10 @@ import { schema } from './schema';
 
 
 
-const { Profile } = initSchema(schema);
+const { EventAssignment, Profile, Event } = initSchema(schema);
 
 export {
-  Profile
+  EventAssignment,
+  Profile,
+  Event
 };

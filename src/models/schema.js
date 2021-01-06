@@ -1,5 +1,93 @@
 export const schema = {
     "models": {
+        "EventAssignment": {
+            "name": "EventAssignment",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "Profile": {
+                    "name": "Profile",
+                    "isArray": false,
+                    "type": {
+                        "model": "Profile"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetName": "eventAssignmentProfileId"
+                    }
+                },
+                "slotNumber": {
+                    "name": "slotNumber",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "profileID": {
+                    "name": "profileID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "eventID": {
+                    "name": "eventID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                }
+            },
+            "syncable": true,
+            "pluralName": "EventAssignments",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byProfile",
+                        "fields": [
+                            "profileID"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byEvent",
+                        "fields": [
+                            "eventID"
+                        ]
+                    }
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "private",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
         "Profile": {
             "name": "Profile",
             "fields": {
@@ -30,6 +118,20 @@ export const schema = {
                     "type": "String",
                     "isRequired": false,
                     "attributes": []
+                },
+                "EventAssignments": {
+                    "name": "EventAssignments",
+                    "isArray": true,
+                    "type": {
+                        "model": "EventAssignment"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": "profileID"
+                    }
                 }
             },
             "syncable": true,
@@ -66,9 +168,73 @@ export const schema = {
                     }
                 }
             ]
+        },
+        "Event": {
+            "name": "Event",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "startDateTime": {
+                    "name": "startDateTime",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "hostUserName": {
+                    "name": "hostUserName",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "EventAssignments": {
+                    "name": "EventAssignments",
+                    "isArray": true,
+                    "type": {
+                        "model": "EventAssignment"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": "eventID"
+                    }
+                }
+            },
+            "syncable": true,
+            "pluralName": "Events",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "private",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
         }
     },
     "enums": {},
     "nonModels": {},
-    "version": "84b74213ac7002c0ca9ff0200bb4a8ce"
+    "version": "946a8be8571b24a26ca5a9bb6b0c4576"
 };
