@@ -10,6 +10,7 @@ import {
   Route,
 } from "react-router-dom";
 import DjDashBoard from './djdashboard/DjDashboard';
+import { Events } from './events/Events';
 
 Amplify.configure(awsconfig);
 
@@ -17,13 +18,16 @@ function App() {
   return (
     <div className="App">
       <Router>
-      <Switch>
-        <Route path="/djdashboard">
-          <DjDashBoard />
-        </Route>
-        <Route path="/">
-          <DJList />
-        </Route>
+        <Switch>
+          <Route path="/djdashboard">
+            <DjDashBoard />
+          </Route>
+          <Route path="/events">
+            <Events />
+          </Route>
+          <Route path="/">
+            <DJList />
+          </Route>
         </Switch>
       </Router>
     </div>

@@ -10,5 +10,5 @@
         ]
     },
     "S3DeploymentBucket": "amplify-tailbass-dev-165051-deployment",
-    "S3DeploymentRootKey": "amplify-appsync-files/e42c3da57bb4e91a5c9ea11ab6e0b30be02a63b2"
+    "S3DeploymentRootKey": "amplify-appsync-files/4825ff5a24dbbe8f8cc77bb2bbe48d05a5bcc362"
 }

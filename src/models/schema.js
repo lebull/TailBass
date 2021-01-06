@@ -179,10 +179,10 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "startDateTime": {
-                    "name": "startDateTime",
+                "name": {
+                    "name": "name",
                     "isArray": false,
-                    "type": "AWSDateTime",
+                    "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -206,6 +206,13 @@ export const schema = {
                         "connectionType": "HAS_MANY",
                         "associatedWith": "eventID"
                     }
+                },
+                "startDateTime": {
+                    "name": "startDateTime",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -236,5 +243,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "946a8be8571b24a26ca5a9bb6b0c4576"
+    "version": "9eada3725f1d929e069dcca8390b05f8"
 };

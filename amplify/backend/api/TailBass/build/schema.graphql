@@ -1,8 +1,8 @@
 type EventAssignment @aws_iam @aws_cognito_user_pools {
-  id: ID!
   slotNumber: Int
   profileID: ID!
   eventID: ID!
+  id: ID!
   _version: Int!
   _deleted: Boolean
   _lastChangedAt: AWSTimestamp!
@@ -13,8 +13,9 @@ type EventAssignment @aws_iam @aws_cognito_user_pools {
 
 type Event @aws_iam @aws_cognito_user_pools {
   id: ID!
-  startDateTime: AWSDateTime
+  name: String
   hostUserName: String
+  startDateTime: AWSDateTime
   _version: Int!
   _deleted: Boolean
   _lastChangedAt: AWSTimestamp!
@@ -121,10 +122,10 @@ input ModelSizeInput {
 }
 
 input ModelEventAssignmentFilterInput {
-  id: ModelIDInput
   slotNumber: ModelIntInput
   profileID: ModelIDInput
   eventID: ModelIDInput
+  id: ModelIDInput
   and: [ModelEventAssignmentFilterInput]
   or: [ModelEventAssignmentFilterInput]
   not: ModelEventAssignmentFilterInput
@@ -157,19 +158,19 @@ type Query {
 }
 
 input CreateEventAssignmentInput {
-  id: ID
   slotNumber: Int
   profileID: ID!
   eventID: ID!
+  id: ID
   _version: Int
   eventAssignmentProfileId: ID
 }
 
 input UpdateEventAssignmentInput {
-  id: ID!
   slotNumber: Int
   profileID: ID
   eventID: ID
+  id: ID!
   _version: Int
   eventAssignmentProfileId: ID
 }
@@ -220,8 +221,9 @@ type ModelEventConnection @aws_iam @aws_cognito_user_pools {
 
 input ModelEventFilterInput {
   id: ModelIDInput
-  startDateTime: ModelStringInput
+  name: ModelStringInput
   hostUserName: ModelStringInput
+  startDateTime: ModelStringInput
   and: [ModelEventFilterInput]
   or: [ModelEventFilterInput]
   not: ModelEventFilterInput
@@ -229,15 +231,17 @@ input ModelEventFilterInput {
 
 input CreateEventInput {
   id: ID
-  startDateTime: AWSDateTime
+  name: String
   hostUserName: String
+  startDateTime: AWSDateTime
   _version: Int
 }
 
 input UpdateEventInput {
   id: ID!
-  startDateTime: AWSDateTime
+  name: String
   hostUserName: String
+  startDateTime: AWSDateTime
   _version: Int
 }
 
@@ -247,8 +251,9 @@ input DeleteEventInput {
 }
 
 input ModelEventConditionInput {
-  startDateTime: ModelStringInput
+  name: ModelStringInput
   hostUserName: ModelStringInput
+  startDateTime: ModelStringInput
   and: [ModelEventConditionInput]
   or: [ModelEventConditionInput]
   not: ModelEventConditionInput

@@ -26,9 +26,10 @@ export declare class Profile {
 
 export declare class Event {
   readonly id: string;
-  readonly startDateTime?: string;
+  readonly name?: string;
   readonly hostUserName?: string;
   readonly EventAssignments?: (EventAssignment | null)[];
+  readonly startDateTime?: string;
   constructor(init: ModelInit<Event>);
   static copyOf(source: Event, mutator: (draft: MutableModel<Event>) => MutableModel<Event> | void): Event;
 }

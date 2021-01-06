@@ -13,7 +13,6 @@ function DjDashBoard() {
     error: null,
   });
 
-  //TODO:  Does this need to be async?
   const createNewProfile = async ({owner}) => {
     const newProfile = new Profile({
       "owner": owner,
@@ -30,7 +29,6 @@ function DjDashBoard() {
     } catch (e) {
       alert(e.errors.map(error => error.message).join("\n"));
     }
-
   }
 
   useEffect(() => {
