@@ -10,7 +10,7 @@ import {
   Route,
 } from "react-router-dom";
 import DjDashBoard from './djdashboard/DjDashboard';
-import { Events } from './events/Events';
+import Events from './events/Events';
 import { Home } from './home/Home';
 import { Navbar } from './layout/Navbar';
 
