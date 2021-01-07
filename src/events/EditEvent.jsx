@@ -1,26 +1,21 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { API, graphqlOperation } from 'aws-amplify';
 import { withAuthenticator } from "@aws-amplify/ui-react";
-import { useHistory, useParams } from "react-router";
+import { useParams } from "react-router";
 
 import { getEvent } from "../graphql/queries";
+import { cleanEvent } from "./util";
+import { updateEvent } from "../graphql/mutations";
 
 const EditEvent = () => {
 
     const { eventId } = useParams();
-
-    const history = useHistory();
-    const navigagteToEvents = useCallback(() => history.push('/events'), [history]);
 
     const [state, setState] = useState({
         loading: true,
         error: null,
         event: {}
     });
-
-    const updateEvent = async (event) => {
-        return await API.graphql(graphqlOperation(updateEvent, {input: event}));
-    }
 
     useEffect(() => {
         const getEventAsync = async () => {
@@ -39,11 +34,10 @@ const EditEvent = () => {
     //TODO: Dis Ugly
     const onSubmit = (e) => {
         e.preventDefault();
-        
         const updateEventAsync = async () => {
             try {
-                await updateEvent(state.event);
-                navigagteToEvents();
+                const cleanedEvent = cleanEvent(state.event);
+                await API.graphql(graphqlOperation(updateEvent, {input: cleanedEvent}));
             } catch(e){
                 alert(e);
             }
