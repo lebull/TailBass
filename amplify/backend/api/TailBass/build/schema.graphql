@@ -3,9 +3,6 @@ type EventAssignment @aws_iam @aws_cognito_user_pools {
   profileID: ID!
   eventID: ID!
   id: ID!
-  _version: Int!
-  _deleted: Boolean
-  _lastChangedAt: AWSTimestamp!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
   Profile: Profile @aws_iam @aws_cognito_user_pools
@@ -16,9 +13,6 @@ type Event @aws_iam @aws_cognito_user_pools {
   name: String
   hostUserName: String
   startDateTime: AWSDateTime
-  _version: Int!
-  _deleted: Boolean
-  _lastChangedAt: AWSTimestamp!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
   EventAssignments(filter: ModelEventAssignmentFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelEventAssignmentConnection @aws_iam @aws_cognito_user_pools
@@ -29,9 +23,6 @@ type Profile @aws_iam @aws_cognito_user_pools {
   owner: String
   djname: String
   genre: String
-  _version: Int!
-  _deleted: Boolean
-  _lastChangedAt: AWSTimestamp!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
   EventAssignments(filter: ModelEventAssignmentFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelEventAssignmentConnection @aws_iam @aws_cognito_user_pools
@@ -45,7 +36,6 @@ enum ModelSortDirection {
 type ModelEventAssignmentConnection @aws_iam @aws_cognito_user_pools {
   items: [EventAssignment]
   nextToken: String
-  startedAt: AWSTimestamp
 }
 
 input ModelStringInput {
@@ -147,14 +137,11 @@ enum ModelAttributeTypes {
 type Query {
   getEventAssignment(id: ID!): EventAssignment @aws_iam @aws_cognito_user_pools
   listEventAssignments(filter: ModelEventAssignmentFilterInput, limit: Int, nextToken: String): ModelEventAssignmentConnection @aws_iam @aws_cognito_user_pools
-  syncEventAssignments(filter: ModelEventAssignmentFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelEventAssignmentConnection @aws_iam @aws_cognito_user_pools
   getEvent(id: ID!): Event @aws_iam @aws_cognito_user_pools
   listEvents(filter: ModelEventFilterInput, limit: Int, nextToken: String): ModelEventConnection @aws_iam @aws_cognito_user_pools
-  syncEvents(filter: ModelEventFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelEventConnection @aws_iam @aws_cognito_user_pools
   listProfiles(filter: ModelProfileFilterInput, limit: Int, nextToken: String): ModelProfileConnection @aws_iam @aws_cognito_user_pools
   getProfile(id: ID!): Profile @aws_iam @aws_cognito_user_pools
   profilesByOwner(owner: String, sortDirection: ModelSortDirection, filter: ModelProfileFilterInput, limit: Int, nextToken: String): ModelProfileConnection @aws_iam @aws_cognito_user_pools
-  syncProfiles(filter: ModelProfileFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelProfileConnection @aws_iam @aws_cognito_user_pools
 }
 
 input CreateEventAssignmentInput {
@@ -162,7 +149,6 @@ input CreateEventAssignmentInput {
   profileID: ID!
   eventID: ID!
   id: ID
-  _version: Int
   eventAssignmentProfileId: ID
 }
 
@@ -171,13 +157,11 @@ input UpdateEventAssignmentInput {
   profileID: ID
   eventID: ID
   id: ID!
-  _version: Int
   eventAssignmentProfileId: ID
 }
 
 input DeleteEventAssignmentInput {
   id: ID
-  _version: Int
 }
 
 type Mutation {
@@ -216,7 +200,6 @@ type Subscription {
 type ModelEventConnection @aws_iam @aws_cognito_user_pools {
   items: [Event]
   nextToken: String
-  startedAt: AWSTimestamp
 }
 
 input ModelEventFilterInput {
@@ -234,7 +217,6 @@ input CreateEventInput {
   name: String
   hostUserName: String
   startDateTime: AWSDateTime
-  _version: Int
 }
 
 input UpdateEventInput {
@@ -242,12 +224,10 @@ input UpdateEventInput {
   name: String
   hostUserName: String
   startDateTime: AWSDateTime
-  _version: Int
 }
 
 input DeleteEventInput {
   id: ID
-  _version: Int
 }
 
 input ModelEventConditionInput {
@@ -262,7 +242,6 @@ input ModelEventConditionInput {
 type ModelProfileConnection @aws_iam @aws_cognito_user_pools {
   items: [Profile]
   nextToken: String
-  startedAt: AWSTimestamp
 }
 
 input ModelProfileFilterInput {
@@ -280,7 +259,6 @@ input CreateProfileInput {
   owner: String
   djname: String
   genre: String
-  _version: Int
 }
 
 input UpdateProfileInput {
@@ -288,12 +266,10 @@ input UpdateProfileInput {
   owner: String
   djname: String
   genre: String
-  _version: Int
 }
 
 input DeleteProfileInput {
   id: ID
-  _version: Int
 }
 
 input ModelProfileConditionInput {
