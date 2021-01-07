@@ -1,5 +1,6 @@
 import { API, graphqlOperation } from "aws-amplify";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { listEvents } from "../graphql/queries";
 
 
@@ -31,7 +32,7 @@ export const EventList = () => {
     }
 
     else if(state.events.length){
-        return <ul>{state.events.map((event, index) => <li key={`event-${index}`}>{event.name}</li>)}</ul>
+        return <ul>{state.events.map((event, index) => <li key={`event-${index}`}><Link to={`/events/${event.id}/edit`}>{event.name}</Link></li>)}</ul>
     } else {
         return <p>No Events found</p>
     }

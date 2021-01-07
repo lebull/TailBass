@@ -25,7 +25,7 @@ const CreateEvent = () => {
     const onSubmit = (e) => {
         e.preventDefault();
         
-        const createEventAsync = async () => {
+        const editEventAsync = async () => {
             try {
                 debugger;
                 await createNewEvent(state);
@@ -34,7 +34,7 @@ const CreateEvent = () => {
                 alert(e);
             }
         };
-        createEventAsync();
+        editEventAsync();
     }
 
     const handleChange = (event) => {
