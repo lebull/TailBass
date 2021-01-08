@@ -27,12 +27,11 @@
         "IdentityPoolName": "tailbass7454085c_identitypool_7454085c__dev",
         "UserPoolName": "tailbass7454085c_userpool_7454085c"
       },
-      "lastPushTimeStamp": "2021-01-07T17:31:18.158Z",
+      "lastPushTimeStamp": "2021-01-08T15:50:53.550Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-tailbass-dev-165051-deployment/amplify-cfn-templates/auth/tailbass7454085c-cloudformation-template.yml",
         "logicalId": "authtailbass7454085c"
-      },
-      "lastPushDirHash": "Ux2SN+nF2d0aXIqOyu5j+G+23P0="
+      }
     }
   },
   "api": {
@@ -56,12 +55,11 @@
         "GraphQLAPIIdOutput": "agsk4dcfmnbtlc65bfk7h2qq24",
         "GraphQLAPIEndpointOutput": "https://wsga6myxjbdwxa3ozvcs3aprri.appsync-api.us-east-1.amazonaws.com/graphql"
       },
-      "lastPushTimeStamp": "2021-01-07T17:31:18.158Z",
+      "lastPushTimeStamp": "2021-01-08T15:50:53.552Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-tailbass-dev-165051-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apiTailBass"
-      },
-      "lastPushDirHash": "cNECkldzELpa6Ut9g8TI+hltovQ="
+      }
     }
   }
 }
