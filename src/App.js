@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 
 import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
@@ -12,7 +12,7 @@ import {
 import DjDashBoard from './djdashboard/DjDashboard';
 import Events from './events/Events';
 import { Home } from './home/Home';
-import { Navbar } from './layout/Navbar';
+import { Layout } from './layout/Layout';
 
 Amplify.configure(awsconfig);
 
@@ -20,7 +20,7 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Navbar />
+      <Layout>
         <Switch>
           <Route path="/djdashboard">
             <DjDashBoard />
@@ -35,6 +35,7 @@ function App() {
             <Home />
           </Route>
         </Switch>
+        </Layout>
       </Router>
     </div>
   );

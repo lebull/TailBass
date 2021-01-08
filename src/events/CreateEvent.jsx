@@ -3,6 +3,7 @@ import { API, graphqlOperation } from 'aws-amplify';
 import { createEvent } from "../graphql/mutations";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { useHistory } from "react-router";
+import { Button, Checkbox, TextField } from "@material-ui/core";
 
 const CreateEvent = () => {
 
@@ -44,18 +45,15 @@ const CreateEvent = () => {
 
     return <form onSubmit={onSubmit}>
             <div>
-                <label htmlFor="name">Name: </label>
-                <input name="name" value={state.name} onChange={handleChange} required/>
+                <TextField label="Event Name" name="name" value={state.name} onChange={handleChange} required/>
             </div>
             <div>
-                <label htmlFor="hostUserName">Host Name: </label>
-                <input name="hostUserName" value={state.hostUserName} onChange={handleChange} required/>
+                <TextField label="Host Name"name="hostUserName" value={state.hostUserName} onChange={handleChange} required/>
             </div>
             <div>
-                <label htmlFor="visible">Visible: </label>
-                <input type="checkbox" name="visible" value={state.visible} onChange={handleChange}/>
+                <Checkbox label="Visible" type="checkbox" name="visible" value={state.visible} onChange={handleChange}/>
             </div>
-            <button type="submit">Submit</button>
+            <Button type="submit">Submit</Button>
         </form>
 }
 

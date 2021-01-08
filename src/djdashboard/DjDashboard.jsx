@@ -6,6 +6,7 @@ import { createProfile, updateProfile } from "../graphql/mutations";
 
 import { Profile } from "../models";
 import { DjInfo } from './DjInfo';
+import { Box } from '@material-ui/core';
 
 function DjDashBoard() {
   const [state, setState] = useState({
@@ -58,9 +59,12 @@ function DjDashBoard() {
   return (
     <>
       <AmplifySignOut />
-      <p>{state.owner}</p>
-      { state.loading ? <p>Loading...</p> : ""}
-      { state.profile ? <DjInfo profile={state.profile} onProfileChange={onProfileSaved}/> : ""}
+
+      <Box>
+        <p>{state.owner}</p>
+        { state.loading ? <p>Loading...</p> : ""}
+        { state.profile ? <DjInfo profile={state.profile} onProfileChange={onProfileSaved}/> : ""}
+      </Box>
     </>
   );
 }

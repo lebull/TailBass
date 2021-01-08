@@ -1,10 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { AppBar, Button, Toolbar, Typography } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 export const Navbar = () => {
-    return <nav>
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/events">Events</Link></li>
-        <li><Link to="/djdashboard">DjDashboard</Link></li>
-    </nav>
+
+    const history = useHistory();
+    const navTo = (fullpath) => history.push(fullpath);
+
+    return <AppBar position="static">
+        <Toolbar>
+            <Typography variant="h6">
+                Tailbass Admin
+            </Typography>
+            <Button color="inherit" onClick={()=>navTo("/")}>Home</Button>
+            <Button color="inherit" onClick={()=>navTo("/events")}>Events</Button>
+            <Button color="inherit" onClick={()=>navTo("/djdashboard")}>DjDashboard</Button>
+        </Toolbar>
+    </AppBar>
 }
