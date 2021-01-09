@@ -3,7 +3,7 @@ import { API, graphqlOperation } from 'aws-amplify';
 import { createEvent } from "../graphql/mutations";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { useHistory } from "react-router";
-import { Button, Checkbox, TextField } from "@material-ui/core";
+import { Box, Button, Checkbox, Paper, TextField, Typography } from "@material-ui/core";
 
 const CreateEvent = () => {
 
@@ -43,17 +43,14 @@ const CreateEvent = () => {
         setState({...state, [target.name]: target.type === 'checkbox' ? target.checked : target.value});
     }
 
-    return <form onSubmit={onSubmit}>
-            <div>
-                <TextField label="Event Name" name="name" value={state.name} onChange={handleChange} required/>
-            </div>
-            <div>
-                <TextField label="Host Name"name="hostUserName" value={state.hostUserName} onChange={handleChange} required/>
-            </div>
-            <div>
-                <Checkbox label="Visible" type="checkbox" name="visible" value={state.visible} onChange={handleChange}/>
-            </div>
-            <Button type="submit">Submit</Button>
+    return <form onSubmit={onSubmit}><Box display="flex" flexDirection="column" alignItems="center">
+                <Box display="flex" flexDirection="column" alignItems="flex-start" maxWidth="600px">
+                    <Typography variant="h4" align="center" gutterBottom>Create Event</Typography>
+                    <TextField label="Event Name" name="name" value={state.name} onChange={handleChange} margin="normal" required/>
+                    <TextField label="Host Name"name="hostUserName" value={state.hostUserName} onChange={handleChange} margin="normal" required/>
+                    <Button type="submit" variant="contained" color="primary" margin="normal">Create Event</Button>
+                </Box>
+            </Box>
         </form>
 }
 

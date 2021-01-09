@@ -1,4 +1,4 @@
-import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+import { withAuthenticator } from '@aws-amplify/ui-react';
 import { API, graphqlOperation, Auth } from 'aws-amplify';
 import { useEffect, useState } from 'react';
 import { profilesByOwner } from '../graphql/queries';
@@ -6,7 +6,7 @@ import { createProfile, updateProfile } from "../graphql/mutations";
 
 import { Profile } from "../models";
 import { DjInfo } from './DjInfo';
-import { Box } from '@material-ui/core';
+import { Box, Container, Paper, Typography } from '@material-ui/core';
 
 function DjDashBoard() {
   const [state, setState] = useState({
@@ -58,13 +58,15 @@ function DjDashBoard() {
 
   return (
     <>
-      <AmplifySignOut />
-
-      <Box>
-        <p>{state.owner}</p>
-        { state.loading ? <p>Loading...</p> : ""}
-        { state.profile ? <DjInfo profile={state.profile} onProfileChange={onProfileSaved}/> : ""}
-      </Box>
+        <Paper>
+          <Container width="25%">
+          <Box>
+            <Typography variant="h5">{state.owner}</Typography>
+            { state.loading ? <p>Loading...</p> : ""}
+            { state.profile ? <DjInfo profile={state.profile} onProfileChange={onProfileSaved}/> : ""}
+          </Box>
+          </Container>
+        </Paper>
     </>
   );
 }

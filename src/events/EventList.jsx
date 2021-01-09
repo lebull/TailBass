@@ -1,3 +1,4 @@
+import { Table, TableContainer, TableRow, TableHead, TableCell, TableBody, Paper, Button, Icon, Box } from "@material-ui/core";
 import { API, graphqlOperation } from "aws-amplify";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -32,7 +33,36 @@ export const EventList = () => {
     }
 
     else if(state.events.length){
-        return <ul>{state.events.map((event, index) => <li key={`event-${index}`}><Link to={`/events/${event.id}/edit`}>{event.name}</Link></li>)}</ul>
+        // return <ul>{state.events.map((event, index) => <li key={`event-${index}`}><Link to={`/events/${event.id}/edit`}>{event.name}</Link></li>)}</ul>
+
+        return <>
+
+            <Box display="flex" justifyContent="flex-end">
+                <Link to="/events/create"><Button color="primary"><Icon>add</Icon>New Event</Button ></Link>
+            </Box>
+            <TableContainer component={Paper}>
+            <Table aria-label="simple table">
+            <TableHead>
+                <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Host</TableCell>
+                <TableCell>Is Visible</TableCell>
+                <TableCell align="right">Starts</TableCell>
+                </TableRow>
+            </TableHead>
+            <TableBody>
+                {state.events.map((event) => (
+                <TableRow key={event.name}>
+                    <TableCell><Link to={`/events/${event.id}/edit`}>{event.name}</Link></TableCell>
+                    <TableCell>{event.hostUserName}</TableCell>
+                    <TableCell>{event.visible}</TableCell>
+                    <TableCell align="right">{event.startDateTime}</TableCell>
+                </TableRow>
+                ))}
+            </TableBody>
+            </Table>
+        </TableContainer>
+      </>
     } else {
         return <p>No Events found</p>
     }
