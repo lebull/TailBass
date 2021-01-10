@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, CardHeader, Typography } from "@material-ui/core";
+import { Box, Card, CardContent, Typography } from "@material-ui/core";
 import React from "react";
 
 export const UpcomingEvents = () =><Box m={5}>

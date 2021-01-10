@@ -3,7 +3,7 @@ import { API, graphqlOperation } from 'aws-amplify';
 import { createEvent } from "../graphql/mutations";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { useHistory } from "react-router";
-import { Box, Button, Checkbox, Paper, TextField, Typography } from "@material-ui/core";
+import { Box, Button, TextField, Typography } from "@material-ui/core";
 
 const CreateEvent = () => {
 
