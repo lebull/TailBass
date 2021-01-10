@@ -1,5 +1,5 @@
 import React from "react";
-import { AppBar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, Box, Button, IconButton, Link, Menu, MenuItem, Toolbar, Typography } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import { Auth } from "aws-amplify";
 import { AuthConsumer } from "../contexts/AuthContext";
@@ -46,7 +46,7 @@ const SignedInAppBar = () => {
                     {/* Left Side */}
                     <Box display='flex' flexGrow={1}>
                         <Typography variant="h6">
-                            Tailbass Admin
+                            Tailbass Scheduler
                         </Typography>
                     </Box>
                     {/* Right Side */}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { API, graphqlOperation } from 'aws-amplify';
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { useParams } from "react-router";
@@ -7,8 +7,11 @@ import { getEvent } from "../graphql/queries";
 import { cleanEvent } from "./util";
 import { updateEvent } from "../graphql/mutations";
 import { Typography, TextField, Button, Box } from "@material-ui/core";
+import { UiContext } from "../contexts/UiContext";
 
 const EditEvent = () => {
+
+    const { openSnackbar } = useContext(UiContext);
 
     const { eventId } = useParams();
 
@@ -26,7 +29,7 @@ const EditEvent = () => {
                 loading: false,
                 error: false,
                 event,
-            })
+            });
         }
         getEventAsync();
 
@@ -39,6 +42,7 @@ const EditEvent = () => {
             try {
                 const cleanedEvent = cleanEvent(state.event);
                 await API.graphql(graphqlOperation(updateEvent, {input: cleanedEvent}));
+                openSnackbar("Event Saved Successfully");
             } catch(e){
                 alert(e);
             }
