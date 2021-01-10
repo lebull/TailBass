@@ -2,7 +2,7 @@ import { Box, Typography } from "@material-ui/core";
 import React from "react";
 
 export const NextEvent = () => {
-    return <Box textAlign="center" p={5} gutterBottom>
+    return <Box color="white" bgcolor="primary.main" textAlign="center" p={5} m={5} gutterBottom>
         <Typography color="text" variant="h2">
             Event Name
         </Typography>

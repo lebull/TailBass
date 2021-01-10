@@ -7,7 +7,7 @@ import { UpcomingEvents } from "./UpcomingEvents"
 export const Home = () => <>
     <NextEvent />
     <AuthConsumer>
-        {auth => auth.user ? "": <CallToPlay />}
+    {auth => auth.user ? "": <CallToPlay />}
     </AuthConsumer>
     <UpcomingEvents />
 </>

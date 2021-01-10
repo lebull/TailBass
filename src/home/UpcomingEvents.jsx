@@ -4,7 +4,7 @@ import React from "react";
 export const UpcomingEvents = () =><Box m={5}>
     <Box display="flex" justifyContent="center">
         <Typography color="textSecondary" textAlign="center" variant="h6" gutterBottom>
-            Future Events
+            Other Events
         </Typography>
     </Box>
     <Box display="flex" justifyContent="center" flexWrap="wrap">
