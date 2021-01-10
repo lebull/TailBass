@@ -64,7 +64,7 @@ const EditEvent = () => {
                 <Typography variant="h4" align="center" gutterBottom>Edit Event</Typography>
                 <TextField label="Event Name" name="name" value={state.event.name} onChange={handleChange} margin="normal" required/>
                 <TextField label="Host Name"name="hostUserName" value={state.event.hostUserName} onChange={handleChange} margin="normal" required/>
-                <Button type="submit" variant="contained" color="primary" margin="normal">Create Event</Button>
+                <Button type="submit" variant="contained" color="primary" margin="normal">Save</Button>
             </Box>
         </form>
 }
