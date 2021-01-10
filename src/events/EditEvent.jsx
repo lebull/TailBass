@@ -60,7 +60,7 @@ const EditEvent = () => {
     }
 
     return <form onSubmit={onSubmit}>
-            <Box display="flex" flexDirection="column">
+            <Box display="flex" flexDirection="column" alignItems="flex-start">
                 <Typography variant="h4" align="center" gutterBottom>Edit Event</Typography>
                 <TextField label="Event Name" name="name" value={state.event.name} onChange={handleChange} margin="normal" required/>
                 <TextField label="Host Name"name="hostUserName" value={state.event.hostUserName} onChange={handleChange} margin="normal" required/>
