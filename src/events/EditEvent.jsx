@@ -6,6 +6,7 @@ import { useParams } from "react-router";
 import { getEvent } from "../graphql/queries";
 import { cleanEvent } from "./util";
 import { updateEvent } from "../graphql/mutations";
+import { Typography, TextField, Button, Box } from "@material-ui/core";
 
 const EditEvent = () => {
 
@@ -59,19 +60,12 @@ const EditEvent = () => {
     }
 
     return <form onSubmit={onSubmit}>
-            <div>
-                <label htmlFor="name">Name: </label>
-                <input name="name" value={state.event.name} onChange={handleChange} required/>
-            </div>
-            <div>
-                <label htmlFor="hostUserName">Host Name: </label>
-                <input name="hostUserName" value={state.event.hostUserName} onChange={handleChange} required/>
-            </div>
-            <div>
-                <label htmlFor="visible">Visible: </label>
-                <input type="checkbox" name="visible" value={state.event.visible} onChange={handleChange}/>
-            </div>
-            <button type="submit">Submit</button>
+            <Box display="flex" flexDirection="column">
+                <Typography variant="h4" align="center" gutterBottom>Edit Event</Typography>
+                <TextField label="Event Name" name="name" value={state.event.name} onChange={handleChange} margin="normal" required/>
+                <TextField label="Host Name"name="hostUserName" value={state.event.hostUserName} onChange={handleChange} margin="normal" required/>
+                <Button type="submit" variant="contained" color="primary" margin="normal">Create Event</Button>
+            </Box>
         </form>
 }
 
