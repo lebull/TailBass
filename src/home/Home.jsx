@@ -5,7 +5,6 @@ import { UpcomingEvents } from "./UpcomingEvents"
 
 export const Home = () => <>
     <NextEvent />
-    <p>Play with us</p>
     <CallToPlay />
     <UpcomingEvents />
 </>

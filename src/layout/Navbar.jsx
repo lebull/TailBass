@@ -26,6 +26,10 @@ export const Navbar = () => {
         }
     }
 
+    if(!state.signedIn) {
+        return "";
+    }
+
     return <AppBar position="static">
         <Toolbar>
             <Typography variant="h6">
