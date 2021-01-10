@@ -1,3 +1,11 @@
 import React from "react"
+import { CallToPlay } from "./CallToPlay"
+import { NextEvent } from "./NextEvent"
+import { UpcomingEvents } from "./UpcomingEvents"
 
-export const Home = () => <p>Welcome home</p>
+export const Home = () => <>
+    <NextEvent />
+    <p>Play with us</p>
+    <CallToPlay />
+    <UpcomingEvents />
+</>
