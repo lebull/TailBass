@@ -1,4 +1,12 @@
-type EventAssignment @model @auth(rules: [{allow: private}]) @key(name: "byProfile", fields: ["profileID"]) @key(name: "byEvent", fields: ["eventID"]) {
+type Profile @model @key(name: "byOwner", fields: ["owner"], queryField: "profilesByOwner") @auth(rules: [{allow: private, operations: [read, create, update, delete]}]) {
+  id: ID!
+  owner: String
+  djname: String
+  genre: String
+  EventAssignments: [EventAssignment] @connection(keyName: "byProfile", fields: ["id"])
+}
+
+type EventAssignment @model @key(name: "byProfile", fields: ["profileID"]) @key(name: "byEvent", fields: ["eventID"]) @auth(rules: [{allow: private, operations: [read, create, update, delete]}]) {
   Profile: Profile @connection
   slotNumber: Int
   profileID: ID!
@@ -6,19 +14,19 @@ type EventAssignment @model @auth(rules: [{allow: private}]) @key(name: "byProfi
   id: ID!
 }
 
-type Event @model @auth(rules: [{allow: private}]) {
+type Event @model @auth(rules: [{allow: private, operations: [read, create, update, delete]}]) {
   id: ID!
   name: String
-  hostUserName: String
   EventAssignments: [EventAssignment] @connection(keyName: "byEvent", fields: ["id"])
   startDateTime: AWSDateTime
+  hostUserName: String
+  numslots: Int
+  status: EventStatus
 }
 
-type Profile @model @key(name: "byOwner", fields: ["owner"], queryField: "profilesByOwner") @auth(rules: [{allow: private}]) {
-  id: ID!
-  owner: String
-  djname: String
-  genre: String
-  EventAssignments: [EventAssignment] @connection(keyName: "byProfile", fields: ["id"])
+enum EventStatus {
+  DRAFT
+  ACTIVE
+  CANCELED
 }
- 
+  

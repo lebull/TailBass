@@ -1,3 +1,16 @@
+type Profile @aws_iam @aws_cognito_user_pools {
+  id: ID!
+  owner: String
+  djname: String
+  genre: String
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  EventAssignments(filter: ModelEventAssignmentFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelEventAssignmentConnection @aws_iam @aws_cognito_user_pools
+}
+
 type EventAssignment @aws_iam @aws_cognito_user_pools {
   slotNumber: Int
   profileID: ID!
@@ -14,9 +27,10 @@ type EventAssignment @aws_iam @aws_cognito_user_pools {
 type Event @aws_iam @aws_cognito_user_pools {
   id: ID!
   name: String
-  visible: Boolean
   startDateTime: AWSDateTime
   hostUserName: String
+  numslots: Int
+  status: EventStatus
   _version: Int!
   _deleted: Boolean
   _lastChangedAt: AWSTimestamp!
@@ -25,17 +39,10 @@ type Event @aws_iam @aws_cognito_user_pools {
   EventAssignments(filter: ModelEventAssignmentFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelEventAssignmentConnection @aws_iam @aws_cognito_user_pools
 }
 
-type Profile @aws_iam @aws_cognito_user_pools {
-  id: ID!
-  owner: String
-  djname: String
-  genre: String
-  _version: Int!
-  _deleted: Boolean
-  _lastChangedAt: AWSTimestamp!
-  createdAt: AWSDateTime!
-  updatedAt: AWSDateTime!
-  EventAssignments(filter: ModelEventAssignmentFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelEventAssignmentConnection @aws_iam @aws_cognito_user_pools
+enum EventStatus {
+  DRAFT
+  ACTIVE
+  CANCELED
 }
 
 enum ModelSortDirection {
@@ -43,8 +50,8 @@ enum ModelSortDirection {
   DESC
 }
 
-type ModelEventAssignmentConnection @aws_iam @aws_cognito_user_pools {
-  items: [EventAssignment]
+type ModelProfileConnection @aws_iam @aws_cognito_user_pools {
+  items: [Profile]
   nextToken: String
   startedAt: AWSTimestamp
 }
@@ -122,14 +129,14 @@ input ModelSizeInput {
   between: [Int]
 }
 
-input ModelEventAssignmentFilterInput {
-  slotNumber: ModelIntInput
-  profileID: ModelIDInput
-  eventID: ModelIDInput
+input ModelProfileFilterInput {
   id: ModelIDInput
-  and: [ModelEventAssignmentFilterInput]
-  or: [ModelEventAssignmentFilterInput]
-  not: ModelEventAssignmentFilterInput
+  owner: ModelStringInput
+  djname: ModelStringInput
+  genre: ModelStringInput
+  and: [ModelProfileFilterInput]
+  or: [ModelProfileFilterInput]
+  not: ModelProfileFilterInput
 }
 
 enum ModelAttributeTypes {
@@ -146,16 +153,86 @@ enum ModelAttributeTypes {
 }
 
 type Query {
+  listProfiles(filter: ModelProfileFilterInput, limit: Int, nextToken: String): ModelProfileConnection @aws_iam @aws_cognito_user_pools
+  getProfile(id: ID!): Profile @aws_iam @aws_cognito_user_pools
+  profilesByOwner(owner: String, sortDirection: ModelSortDirection, filter: ModelProfileFilterInput, limit: Int, nextToken: String): ModelProfileConnection @aws_iam @aws_cognito_user_pools
+  syncProfiles(filter: ModelProfileFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelProfileConnection @aws_iam @aws_cognito_user_pools
   getEventAssignment(id: ID!): EventAssignment @aws_iam @aws_cognito_user_pools
   listEventAssignments(filter: ModelEventAssignmentFilterInput, limit: Int, nextToken: String): ModelEventAssignmentConnection @aws_iam @aws_cognito_user_pools
   syncEventAssignments(filter: ModelEventAssignmentFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelEventAssignmentConnection @aws_iam @aws_cognito_user_pools
   getEvent(id: ID!): Event @aws_iam @aws_cognito_user_pools
   listEvents(filter: ModelEventFilterInput, limit: Int, nextToken: String): ModelEventConnection @aws_iam @aws_cognito_user_pools
   syncEvents(filter: ModelEventFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelEventConnection @aws_iam @aws_cognito_user_pools
-  listProfiles(filter: ModelProfileFilterInput, limit: Int, nextToken: String): ModelProfileConnection @aws_iam @aws_cognito_user_pools
-  getProfile(id: ID!): Profile @aws_iam @aws_cognito_user_pools
-  profilesByOwner(owner: String, sortDirection: ModelSortDirection, filter: ModelProfileFilterInput, limit: Int, nextToken: String): ModelProfileConnection @aws_iam @aws_cognito_user_pools
-  syncProfiles(filter: ModelProfileFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelProfileConnection @aws_iam @aws_cognito_user_pools
+}
+
+input CreateProfileInput {
+  id: ID
+  owner: String
+  djname: String
+  genre: String
+  _version: Int
+}
+
+input UpdateProfileInput {
+  id: ID!
+  owner: String
+  djname: String
+  genre: String
+  _version: Int
+}
+
+input DeleteProfileInput {
+  id: ID
+  _version: Int
+}
+
+type Mutation {
+  createProfile(input: CreateProfileInput!, condition: ModelProfileConditionInput): Profile @aws_iam @aws_cognito_user_pools
+  updateProfile(input: UpdateProfileInput!, condition: ModelProfileConditionInput): Profile @aws_iam @aws_cognito_user_pools
+  deleteProfile(input: DeleteProfileInput!, condition: ModelProfileConditionInput): Profile @aws_iam @aws_cognito_user_pools
+  createEventAssignment(input: CreateEventAssignmentInput!, condition: ModelEventAssignmentConditionInput): EventAssignment @aws_iam @aws_cognito_user_pools
+  updateEventAssignment(input: UpdateEventAssignmentInput!, condition: ModelEventAssignmentConditionInput): EventAssignment @aws_iam @aws_cognito_user_pools
+  deleteEventAssignment(input: DeleteEventAssignmentInput!, condition: ModelEventAssignmentConditionInput): EventAssignment @aws_iam @aws_cognito_user_pools
+  createEvent(input: CreateEventInput!, condition: ModelEventConditionInput): Event @aws_iam @aws_cognito_user_pools
+  updateEvent(input: UpdateEventInput!, condition: ModelEventConditionInput): Event @aws_iam @aws_cognito_user_pools
+  deleteEvent(input: DeleteEventInput!, condition: ModelEventConditionInput): Event @aws_iam @aws_cognito_user_pools
+}
+
+input ModelProfileConditionInput {
+  owner: ModelStringInput
+  djname: ModelStringInput
+  genre: ModelStringInput
+  and: [ModelProfileConditionInput]
+  or: [ModelProfileConditionInput]
+  not: ModelProfileConditionInput
+}
+
+type Subscription {
+  onCreateProfile: Profile @aws_subscribe(mutations: ["createProfile"]) @aws_iam @aws_cognito_user_pools
+  onUpdateProfile: Profile @aws_subscribe(mutations: ["updateProfile"]) @aws_iam @aws_cognito_user_pools
+  onDeleteProfile: Profile @aws_subscribe(mutations: ["deleteProfile"]) @aws_iam @aws_cognito_user_pools
+  onCreateEventAssignment: EventAssignment @aws_subscribe(mutations: ["createEventAssignment"]) @aws_iam @aws_cognito_user_pools
+  onUpdateEventAssignment: EventAssignment @aws_subscribe(mutations: ["updateEventAssignment"]) @aws_iam @aws_cognito_user_pools
+  onDeleteEventAssignment: EventAssignment @aws_subscribe(mutations: ["deleteEventAssignment"]) @aws_iam @aws_cognito_user_pools
+  onCreateEvent: Event @aws_subscribe(mutations: ["createEvent"]) @aws_iam @aws_cognito_user_pools
+  onUpdateEvent: Event @aws_subscribe(mutations: ["updateEvent"]) @aws_iam @aws_cognito_user_pools
+  onDeleteEvent: Event @aws_subscribe(mutations: ["deleteEvent"]) @aws_iam @aws_cognito_user_pools
+}
+
+type ModelEventAssignmentConnection @aws_iam @aws_cognito_user_pools {
+  items: [EventAssignment]
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelEventAssignmentFilterInput {
+  slotNumber: ModelIntInput
+  profileID: ModelIDInput
+  eventID: ModelIDInput
+  id: ModelIDInput
+  and: [ModelEventAssignmentFilterInput]
+  or: [ModelEventAssignmentFilterInput]
+  not: ModelEventAssignmentFilterInput
 }
 
 input CreateEventAssignmentInput {
@@ -181,18 +258,6 @@ input DeleteEventAssignmentInput {
   _version: Int
 }
 
-type Mutation {
-  createEventAssignment(input: CreateEventAssignmentInput!, condition: ModelEventAssignmentConditionInput): EventAssignment @aws_iam @aws_cognito_user_pools
-  updateEventAssignment(input: UpdateEventAssignmentInput!, condition: ModelEventAssignmentConditionInput): EventAssignment @aws_iam @aws_cognito_user_pools
-  deleteEventAssignment(input: DeleteEventAssignmentInput!, condition: ModelEventAssignmentConditionInput): EventAssignment @aws_iam @aws_cognito_user_pools
-  createEvent(input: CreateEventInput!, condition: ModelEventConditionInput): Event @aws_iam @aws_cognito_user_pools
-  updateEvent(input: UpdateEventInput!, condition: ModelEventConditionInput): Event @aws_iam @aws_cognito_user_pools
-  deleteEvent(input: DeleteEventInput!, condition: ModelEventConditionInput): Event @aws_iam @aws_cognito_user_pools
-  createProfile(input: CreateProfileInput!, condition: ModelProfileConditionInput): Profile @aws_iam @aws_cognito_user_pools
-  updateProfile(input: UpdateProfileInput!, condition: ModelProfileConditionInput): Profile @aws_iam @aws_cognito_user_pools
-  deleteProfile(input: DeleteProfileInput!, condition: ModelProfileConditionInput): Profile @aws_iam @aws_cognito_user_pools
-}
-
 input ModelEventAssignmentConditionInput {
   slotNumber: ModelIntInput
   profileID: ModelIDInput
@@ -202,30 +267,24 @@ input ModelEventAssignmentConditionInput {
   not: ModelEventAssignmentConditionInput
 }
 
-type Subscription {
-  onCreateEventAssignment: EventAssignment @aws_subscribe(mutations: ["createEventAssignment"]) @aws_iam @aws_cognito_user_pools
-  onUpdateEventAssignment: EventAssignment @aws_subscribe(mutations: ["updateEventAssignment"]) @aws_iam @aws_cognito_user_pools
-  onDeleteEventAssignment: EventAssignment @aws_subscribe(mutations: ["deleteEventAssignment"]) @aws_iam @aws_cognito_user_pools
-  onCreateEvent: Event @aws_subscribe(mutations: ["createEvent"]) @aws_iam @aws_cognito_user_pools
-  onUpdateEvent: Event @aws_subscribe(mutations: ["updateEvent"]) @aws_iam @aws_cognito_user_pools
-  onDeleteEvent: Event @aws_subscribe(mutations: ["deleteEvent"]) @aws_iam @aws_cognito_user_pools
-  onCreateProfile: Profile @aws_subscribe(mutations: ["createProfile"]) @aws_iam @aws_cognito_user_pools
-  onUpdateProfile: Profile @aws_subscribe(mutations: ["updateProfile"]) @aws_iam @aws_cognito_user_pools
-  onDeleteProfile: Profile @aws_subscribe(mutations: ["deleteProfile"]) @aws_iam @aws_cognito_user_pools
-}
-
 type ModelEventConnection @aws_iam @aws_cognito_user_pools {
   items: [Event]
   nextToken: String
   startedAt: AWSTimestamp
 }
 
+input ModelEventStatusInput {
+  eq: EventStatus
+  ne: EventStatus
+}
+
 input ModelEventFilterInput {
   id: ModelIDInput
   name: ModelStringInput
-  visible: ModelBooleanInput
   startDateTime: ModelStringInput
   hostUserName: ModelStringInput
+  numslots: ModelIntInput
+  status: ModelEventStatusInput
   and: [ModelEventFilterInput]
   or: [ModelEventFilterInput]
   not: ModelEventFilterInput
@@ -234,18 +293,20 @@ input ModelEventFilterInput {
 input CreateEventInput {
   id: ID
   name: String
-  visible: Boolean
   startDateTime: AWSDateTime
   hostUserName: String
+  numslots: Int
+  status: EventStatus
   _version: Int
 }
 
 input UpdateEventInput {
   id: ID!
   name: String
-  visible: Boolean
   startDateTime: AWSDateTime
   hostUserName: String
+  numslots: Int
+  status: EventStatus
   _version: Int
 }
 
@@ -256,56 +317,11 @@ input DeleteEventInput {
 
 input ModelEventConditionInput {
   name: ModelStringInput
-  visible: ModelBooleanInput
   startDateTime: ModelStringInput
   hostUserName: ModelStringInput
+  numslots: ModelIntInput
+  status: ModelEventStatusInput
   and: [ModelEventConditionInput]
   or: [ModelEventConditionInput]
   not: ModelEventConditionInput
-}
-
-type ModelProfileConnection @aws_iam @aws_cognito_user_pools {
-  items: [Profile]
-  nextToken: String
-  startedAt: AWSTimestamp
-}
-
-input ModelProfileFilterInput {
-  id: ModelIDInput
-  owner: ModelStringInput
-  djname: ModelStringInput
-  genre: ModelStringInput
-  and: [ModelProfileFilterInput]
-  or: [ModelProfileFilterInput]
-  not: ModelProfileFilterInput
-}
-
-input CreateProfileInput {
-  id: ID
-  owner: String
-  djname: String
-  genre: String
-  _version: Int
-}
-
-input UpdateProfileInput {
-  id: ID!
-  owner: String
-  djname: String
-  genre: String
-  _version: Int
-}
-
-input DeleteProfileInput {
-  id: ID
-  _version: Int
-}
-
-input ModelProfileConditionInput {
-  owner: ModelStringInput
-  djname: ModelStringInput
-  genre: ModelStringInput
-  and: [ModelProfileConditionInput]
-  or: [ModelProfileConditionInput]
-  not: ModelProfileConditionInput
 }

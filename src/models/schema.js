@@ -1,5 +1,86 @@
 export const schema = {
     "models": {
+        "Profile": {
+            "name": "Profile",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "owner": {
+                    "name": "owner",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "djname": {
+                    "name": "djname",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "genre": {
+                    "name": "genre",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "EventAssignments": {
+                    "name": "EventAssignments",
+                    "isArray": true,
+                    "type": {
+                        "model": "EventAssignment"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": "profileID"
+                    }
+                }
+            },
+            "syncable": true,
+            "pluralName": "Profiles",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byOwner",
+                        "fields": [
+                            "owner"
+                        ],
+                        "queryField": "profilesByOwner"
+                    }
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "private",
+                                "operations": [
+                                    "read",
+                                    "create",
+                                    "update",
+                                    "delete"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
         "EventAssignment": {
             "name": "EventAssignment",
             "fields": {
@@ -77,91 +158,10 @@ export const schema = {
                             {
                                 "allow": "private",
                                 "operations": [
+                                    "read",
                                     "create",
                                     "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        "Profile": {
-            "name": "Profile",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "owner": {
-                    "name": "owner",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "djname": {
-                    "name": "djname",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "genre": {
-                    "name": "genre",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "EventAssignments": {
-                    "name": "EventAssignments",
-                    "isArray": true,
-                    "type": {
-                        "model": "EventAssignment"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "profileID"
-                    }
-                }
-            },
-            "syncable": true,
-            "pluralName": "Profiles",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byOwner",
-                        "fields": [
-                            "owner"
-                        ],
-                        "queryField": "profilesByOwner"
-                    }
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "allow": "private",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
+                                    "delete"
                                 ]
                             }
                         ]
@@ -181,13 +181,6 @@ export const schema = {
                 },
                 "name": {
                     "name": "name",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "hostUserName": {
-                    "name": "hostUserName",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -213,6 +206,29 @@ export const schema = {
                     "type": "AWSDateTime",
                     "isRequired": false,
                     "attributes": []
+                },
+                "hostUserName": {
+                    "name": "hostUserName",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "numslots": {
+                    "name": "numslots",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "status": {
+                    "name": "status",
+                    "isArray": false,
+                    "type": {
+                        "enum": "EventStatus"
+                    },
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -229,10 +245,10 @@ export const schema = {
                             {
                                 "allow": "private",
                                 "operations": [
+                                    "read",
                                     "create",
                                     "update",
-                                    "delete",
-                                    "read"
+                                    "delete"
                                 ]
                             }
                         ]
@@ -241,7 +257,16 @@ export const schema = {
             ]
         }
     },
-    "enums": {},
+    "enums": {
+        "EventStatus": {
+            "name": "EventStatus",
+            "values": [
+                "DRAFT",
+                "ACTIVE",
+                "CANCELED"
+            ]
+        }
+    },
     "nonModels": {},
-    "version": "9eada3725f1d929e069dcca8390b05f8"
+    "version": "43a20cace1df4a8b71eba7e0f2198bdb"
 };

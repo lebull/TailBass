@@ -2,12 +2,17 @@
 import { initSchema } from '@aws-amplify/datastore';
 import { schema } from './schema';
 
+const EventStatus = {
+  "DRAFT": "DRAFT",
+  "ACTIVE": "ACTIVE",
+  "CANCELED": "CANCELED"
+};
 
-
-const { EventAssignment, Profile, Event } = initSchema(schema);
+const { Profile, EventAssignment, Event } = initSchema(schema);
 
 export {
-  EventAssignment,
   Profile,
-  Event
+  EventAssignment,
+  Event,
+  EventStatus
 };
