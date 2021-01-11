@@ -1,12 +1,13 @@
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import { API, graphqlOperation, Auth } from 'aws-amplify';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { profilesByOwner } from '../graphql/queries';
 import { createProfile, updateProfile } from "../graphql/mutations";
 
 import { Profile } from "../models";
 import { DjInfo } from './DjInfo';
-import { Box, Container, Paper, Typography } from '@material-ui/core';
+import { Box, Paper, Typography } from '@material-ui/core';
+import { UiContext } from '../contexts/UiContext';
 
 function DjDashBoard() {
   const [state, setState] = useState({
@@ -14,6 +15,8 @@ function DjDashBoard() {
     error: null,
   });
 
+  const { openSnackbar } = useContext(UiContext);
+  
   const createNewProfile = async ({owner}) => {
     const newProfile = new Profile({
       "owner": owner,
@@ -25,10 +28,13 @@ function DjDashBoard() {
 
   const onProfileSaved = async ({profile}) => {
     try {
+      setState({...state, loading: true});
       await API.graphql(graphqlOperation(updateProfile, { input: profile }));
-      alert("Changes Saved");
+      openSnackbar("Changes Saved");
     } catch (e) {
       alert(e.errors.map(error => error.message).join("\n"));
+    } finally {
+      setState({...state, loading: false});
     }
   }
 
@@ -56,18 +62,19 @@ function DjDashBoard() {
     []
   );
 
+  if(state.loading){
+    return <p>Loading...</p> 
+  }
+
   return (
-    <>
-        <Paper>
-          <Container width="25%">
-          <Box>
-            <Typography variant="h5">{state.owner}</Typography>
-            { state.loading ? <p>Loading...</p> : ""}
-            { state.profile ? <DjInfo profile={state.profile} onProfileChange={onProfileSaved}/> : ""}
-          </Box>
-          </Container>
-        </Paper>
-    </>
+    <Box p={3}>
+      <Paper>
+        <Box p={3}>
+          <Typography variant="h5">{state.owner}</Typography>
+          { state.profile ? <DjInfo profile={state.profile} onProfileChange={onProfileSaved}/> : ""}
+        </Box>
+      </Paper>  
+    </Box>  
   );
 }
 

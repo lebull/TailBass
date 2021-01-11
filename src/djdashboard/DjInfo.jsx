@@ -1,4 +1,4 @@
-import { Button, TextField } from "@material-ui/core";
+import { Box, Button, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 
 export const DjInfo = ({profile, onProfileChange}) => {
@@ -21,17 +21,11 @@ export const DjInfo = ({profile, onProfileChange}) => {
         return false;
     }
 
-    return <div>
-        <form onSubmit={handleSubmit}>
-            <div>
-                <TextField label="DJName" value={state.profile.djname} onChange={(e) => handleProfileValueChange("djname", e.target.value)}/>
-            </div>
-            <div>
-                <TextField label="Genre" value={state.profile.genre} onChange={(e) => handleProfileValueChange("djname", e.target.value)}/>
-            </div>
-            <div>
-                <Button type="submit">Save</Button>
-            </div>
+    return <form onSubmit={handleSubmit}>
+            <Box display="flex" flexDirection="column">
+                <TextField label="DJName" value={state.profile.djname} margin="normal" onChange={(e) => handleProfileValueChange("djname", e.target.value)}/>
+                <TextField label="Genre" value={state.profile.genre} margin="normal" onChange={(e) => handleProfileValueChange("genre", e.target.value)}/>
+                <Button type="submit" variant="contained" color="primary">Save</Button>
+            </Box>
         </form>
-    </div>
 }

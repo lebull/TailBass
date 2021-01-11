@@ -42,8 +42,8 @@ const UiProvider = props => {
                 horizontal: 'left',
             }}
             open={snackbarState.open}
-            autoHideDuration={6000}
-            onClose={snackbarState.open}
+            autoHideDuration={5000}
+            onClose={closeSnackbar}
             message={snackbarState.message}
             action={
                 <React.Fragment>
