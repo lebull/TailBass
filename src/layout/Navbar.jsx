@@ -1,5 +1,5 @@
 import React from "react";
-import { AppBar, Box, Button, IconButton, Link, Menu, MenuItem, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import { Auth } from "aws-amplify";
 import { AuthConsumer } from "../contexts/AuthContext";
@@ -14,14 +14,8 @@ const SignedInAppBar = () => {
     const history = useHistory();
     const navTo = (fullpath) => history.push(fullpath);
 
-
-    // const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-  
-    // const handleChange = (event) => {
-    //   setAuth(event.target.checked);
-    // };
   
     const handleMenu = (event) => {
       setAnchorEl(event.currentTarget);
@@ -30,7 +24,6 @@ const SignedInAppBar = () => {
     const handleClose = () => {
       setAnchorEl(null);
     };
-  
 
     const isUserAdmin = user => {
         const groups = user.signInUserSession.accessToken.payload["cognito:groups"];
