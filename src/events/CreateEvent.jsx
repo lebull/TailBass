@@ -41,7 +41,8 @@ const CreateEvent = () => {
         setState({...state, [target.name]: target.type === 'checkbox' ? target.checked : target.value});
     }
 
-    return <form onSubmit={onSubmit}><Box display="flex" flexDirection="column" alignItems="center">
+    return <form onSubmit={onSubmit}>
+            <Box display="flex" flexDirection="column" alignItems="center">
                 <Box display="flex" flexDirection="column" alignItems="flex-start" maxWidth="600px">
                     <Typography variant="h4" align="center" gutterBottom>Create Event</Typography>
                     <TextField label="Event Name" name="name" value={state.name} onChange={handleChange} margin="normal" required/>
