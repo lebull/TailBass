@@ -1,11 +1,13 @@
-import React, { useCallback, useState } from "react";
-import { API, graphqlOperation } from 'aws-amplify';
-import { createEvent } from "../graphql/mutations";
+import React, { useCallback, useState, useContext } from "react";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { useHistory } from "react-router";
 import { Box, Button, TextField, Typography } from "@material-ui/core";
+import { createNewEvent } from "./Api";
+import { UiContext } from "../contexts/UiContext";
 
 const CreateEvent = () => {
+
+    const { openSnackbar } = useContext(UiContext);
 
     const history = useHistory();
     const navigagteToEvents = useCallback(() => history.push('/events'), [history]);
@@ -18,24 +20,20 @@ const CreateEvent = () => {
 
     const [state, setState] = useState({...defaultEvent});
 
-    const createNewEvent = async ({owner}) => {
-        return await API.graphql(graphqlOperation(createEvent, {input: state}));
-    }
-
     //TODO: Dis Ugly
     const onSubmit = (e) => {
         e.preventDefault();
         
-        const editEventAsync = async () => {
+        const createEventAsync = async () => {
             try {
-                debugger;
-                await createNewEvent(state);
+                await createNewEvent({event: state});
                 navigagteToEvents();
             } catch(e){
-                alert(e);
+                console.error(e);
+                openSnackbar("Error occured while saving the event")
             }
         };
-        editEventAsync();
+        createEventAsync();
     }
 
     const handleChange = (event) => {

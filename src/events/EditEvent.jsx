@@ -1,13 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import { API, graphqlOperation } from 'aws-amplify';
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import { useParams } from "react-router";
-
-import { getEvent } from "../graphql/queries";
-import { cleanEvent } from "./util";
-import { updateEvent } from "../graphql/mutations";
 import { Typography, TextField, Button, Box } from "@material-ui/core";
 import { UiContext } from "../contexts/UiContext";
+import { editEvent, getEvent } from "./Api";
 
 const EditEvent = () => {
 
@@ -23,7 +19,7 @@ const EditEvent = () => {
 
     useEffect(() => {
         const getEventAsync = async () => {
-            const eventResult = await API.graphql(graphqlOperation(getEvent, {id: eventId}));
+            const eventResult = await getEvent({eventId});
             const event = eventResult.data.getEvent;
             setState({
                 loading: false,
@@ -40,8 +36,7 @@ const EditEvent = () => {
         e.preventDefault();
         const updateEventAsync = async () => {
             try {
-                const cleanedEvent = cleanEvent(state.event);
-                await API.graphql(graphqlOperation(updateEvent, {input: cleanedEvent}));
+                await editEvent({event: state.event});
                 openSnackbar("Event Saved Successfully");
             } catch(e){
                 alert(e);
