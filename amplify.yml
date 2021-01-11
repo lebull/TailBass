@@ -7,7 +7,6 @@ frontend:
         - npm ci
     build:
       commands:
-        - GA_MEASUREMENT_ID=$GA_MEASUREMENT_ID
         - npm run build
   artifacts:
     baseDirectory: build
