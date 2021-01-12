@@ -1,5 +1,75 @@
 export const schema = {
-    "models": {
+    "models": {},
+    "enums": {
+        "ModelAttributeTypes": {
+            "name": "ModelAttributeTypes",
+            "values": [
+                "binary",
+                "binarySet",
+                "bool",
+                "list",
+                "map",
+                "number",
+                "numberSet",
+                "string",
+                "stringSet",
+                "_null"
+            ]
+        },
+        "EventStatus": {
+            "name": "EventStatus",
+            "values": [
+                "DRAFT",
+                "ACTIVE",
+                "CANCELED"
+            ]
+        },
+        "ModelSortDirection": {
+            "name": "ModelSortDirection",
+            "values": [
+                "ASC",
+                "DESC"
+            ]
+        },
+        "EventAssignmentStatus": {
+            "name": "EventAssignmentStatus",
+            "values": [
+                "DJACCEPTED",
+                "HOSTACCEPTED",
+                "APPROVED"
+            ]
+        }
+    },
+    "nonModels": {
+        "ModelProfileConnection": {
+            "name": "ModelProfileConnection",
+            "fields": {
+                "items": {
+                    "name": "items",
+                    "isArray": true,
+                    "type": {
+                        "nonModel": "Profile"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true
+                },
+                "nextToken": {
+                    "name": "nextToken",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "startedAt": {
+                    "name": "startedAt",
+                    "isArray": false,
+                    "type": "AWSTimestamp",
+                    "isRequired": false,
+                    "attributes": []
+                }
+            }
+        },
         "Profile": {
             "name": "Profile",
             "fields": {
@@ -31,55 +101,80 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "_version": {
+                    "name": "_version",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "_deleted": {
+                    "name": "_deleted",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "_lastChangedAt": {
+                    "name": "_lastChangedAt",
+                    "isArray": false,
+                    "type": "AWSTimestamp",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "EventAssignments": {
                     "name": "EventAssignments",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "ModelEventAssignmentConnection"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                }
+            }
+        },
+        "ModelEventAssignmentConnection": {
+            "name": "ModelEventAssignmentConnection",
+            "fields": {
+                "items": {
+                    "name": "items",
                     "isArray": true,
                     "type": {
-                        "model": "EventAssignment"
+                        "nonModel": "EventAssignment"
                     },
                     "isRequired": false,
                     "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "profileID"
-                    }
-                }
-            },
-            "syncable": true,
-            "pluralName": "Profiles",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
+                    "isArrayNullable": true
                 },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byOwner",
-                        "fields": [
-                            "owner"
-                        ],
-                        "queryField": "profilesByOwner"
-                    }
+                "nextToken": {
+                    "name": "nextToken",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
                 },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "allow": "private",
-                                "operations": [
-                                    "read",
-                                    "create",
-                                    "update",
-                                    "delete"
-                                ]
-                            }
-                        ]
-                    }
+                "startedAt": {
+                    "name": "startedAt",
+                    "isArray": false,
+                    "type": "AWSTimestamp",
+                    "isRequired": false,
+                    "attributes": []
                 }
-            ]
+            }
         },
         "EventAssignment": {
             "name": "EventAssignment",
@@ -91,18 +186,14 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "Profile": {
-                    "name": "Profile",
+                "status": {
+                    "name": "status",
                     "isArray": false,
                     "type": {
-                        "model": "Profile"
+                        "enum": "EventStatus"
                     },
                     "isRequired": false,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetName": "eventAssignmentProfileId"
-                    }
+                    "attributes": []
                 },
                 "slotNumber": {
                     "name": "slotNumber",
@@ -124,50 +215,52 @@ export const schema = {
                     "type": "ID",
                     "isRequired": true,
                     "attributes": []
+                },
+                "_version": {
+                    "name": "_version",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "_deleted": {
+                    "name": "_deleted",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "_lastChangedAt": {
+                    "name": "_lastChangedAt",
+                    "isArray": false,
+                    "type": "AWSTimestamp",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "Profile": {
+                    "name": "Profile",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "Profile"
+                    },
+                    "isRequired": false,
+                    "attributes": []
                 }
-            },
-            "syncable": true,
-            "pluralName": "EventAssignments",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byProfile",
-                        "fields": [
-                            "profileID"
-                        ]
-                    }
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byEvent",
-                        "fields": [
-                            "eventID"
-                        ]
-                    }
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "allow": "private",
-                                "operations": [
-                                    "read",
-                                    "create",
-                                    "update",
-                                    "delete"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
+            }
         },
         "Event": {
             "name": "Event",
@@ -183,22 +276,8 @@ export const schema = {
                     "name": "name",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
-                },
-                "EventAssignments": {
-                    "name": "EventAssignments",
-                    "isArray": true,
-                    "type": {
-                        "model": "EventAssignment"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "eventID"
-                    }
                 },
                 "startDateTime": {
                     "name": "startDateTime",
@@ -229,44 +308,82 @@ export const schema = {
                     },
                     "isRequired": false,
                     "attributes": []
-                }
-            },
-            "syncable": true,
-            "pluralName": "Events",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
                 },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "allow": "private",
-                                "operations": [
-                                    "read",
-                                    "create",
-                                    "update",
-                                    "delete"
-                                ]
-                            }
-                        ]
-                    }
+                "_version": {
+                    "name": "_version",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "_deleted": {
+                    "name": "_deleted",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "_lastChangedAt": {
+                    "name": "_lastChangedAt",
+                    "isArray": false,
+                    "type": "AWSTimestamp",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "EventAssignments": {
+                    "name": "EventAssignments",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "ModelEventAssignmentConnection"
+                    },
+                    "isRequired": false,
+                    "attributes": []
                 }
-            ]
+            }
+        },
+        "ModelEventConnection": {
+            "name": "ModelEventConnection",
+            "fields": {
+                "items": {
+                    "name": "items",
+                    "isArray": true,
+                    "type": {
+                        "nonModel": "Event"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true
+                },
+                "nextToken": {
+                    "name": "nextToken",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "startedAt": {
+                    "name": "startedAt",
+                    "isArray": false,
+                    "type": "AWSTimestamp",
+                    "isRequired": false,
+                    "attributes": []
+                }
+            }
         }
     },
-    "enums": {
-        "EventStatus": {
-            "name": "EventStatus",
-            "values": [
-                "DRAFT",
-                "ACTIVE",
-                "CANCELED"
-            ]
-        }
-    },
-    "nonModels": {},
-    "version": "43a20cace1df4a8b71eba7e0f2198bdb"
+    "version": "1987f70ce68afdbc3b86268d29130fdb"
 };

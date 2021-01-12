@@ -12,5 +12,6 @@ export const Home = () => <>
         {auth => auth.user ? "": <CallToPlay />}
         </AuthConsumer>
         <UpcomingEvents />
+        <p>Discord Link</p>
     </Container>
 </>

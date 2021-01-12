@@ -12,10 +12,11 @@ type Profile @aws_iam @aws_cognito_user_pools {
 }
 
 type EventAssignment @aws_iam @aws_cognito_user_pools {
+  id: ID!
+  status: EventStatus
   slotNumber: Int
   profileID: ID!
   eventID: ID!
-  id: ID!
   _version: Int!
   _deleted: Boolean
   _lastChangedAt: AWSTimestamp!
@@ -26,7 +27,7 @@ type EventAssignment @aws_iam @aws_cognito_user_pools {
 
 type Event @aws_iam @aws_cognito_user_pools {
   id: ID!
-  name: String
+  name: String!
   startDateTime: AWSDateTime
   hostUserName: String
   numslots: Int
@@ -43,6 +44,12 @@ enum EventStatus {
   DRAFT
   ACTIVE
   CANCELED
+}
+
+enum EventAssignmentStatus {
+  DJACCEPTED
+  HOSTACCEPTED
+  APPROVED
 }
 
 enum ModelSortDirection {
@@ -225,30 +232,38 @@ type ModelEventAssignmentConnection @aws_iam @aws_cognito_user_pools {
   startedAt: AWSTimestamp
 }
 
+input ModelEventStatusInput {
+  eq: EventStatus
+  ne: EventStatus
+}
+
 input ModelEventAssignmentFilterInput {
+  id: ModelIDInput
+  status: ModelEventStatusInput
   slotNumber: ModelIntInput
   profileID: ModelIDInput
   eventID: ModelIDInput
-  id: ModelIDInput
   and: [ModelEventAssignmentFilterInput]
   or: [ModelEventAssignmentFilterInput]
   not: ModelEventAssignmentFilterInput
 }
 
 input CreateEventAssignmentInput {
+  id: ID
+  status: EventStatus!
   slotNumber: Int
   profileID: ID!
   eventID: ID!
-  id: ID
   _version: Int
   eventAssignmentProfileId: ID
 }
 
 input UpdateEventAssignmentInput {
+  id: ID!
+  status: EventStatus
   slotNumber: Int
   profileID: ID
   eventID: ID
-  id: ID!
   _version: Int
   eventAssignmentProfileId: ID
 }
@@ -259,6 +274,7 @@ input DeleteEventAssignmentInput {
 }
 
 input ModelEventAssignmentConditionInput {
+  status: ModelEventStatusInput
   slotNumber: ModelIntInput
   profileID: ModelIDInput
   eventID: ModelIDInput
@@ -271,11 +287,6 @@ type ModelEventConnection @aws_iam @aws_cognito_user_pools {
   items: [Event]
   nextToken: String
   startedAt: AWSTimestamp
-}
-
-input ModelEventStatusInput {
-  eq: EventStatus
-  ne: EventStatus
 }
 
 input ModelEventFilterInput {
@@ -292,11 +303,11 @@ input ModelEventFilterInput {
 
 input CreateEventInput {
   id: ID
-  name: String
+  name: String!
   startDateTime: AWSDateTime
   hostUserName: String
   numslots: Int
-  status: EventStatus
+  status: EventStatus!
   _version: Int
 }
 
