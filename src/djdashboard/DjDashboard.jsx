@@ -42,11 +42,10 @@ function DjDashBoard() {
       const setUserInfo = async () => {
         const userInfo = await Auth.currentUserInfo();
         const profilesResult = await API.graphql(graphqlOperation(profilesByOwner, {owner: userInfo.username}));
-
-        let profile = profilesResult.data.profilesByOwner.items[0];
+        let profile = profilesResult.data.profilesByOwner?.items[0];
 
         if(!profile){
-          profile = createNewProfile({owner: userInfo.username})
+          profile = await createNewProfile({owner: userInfo.username})
         }
 
         setState({

@@ -15,7 +15,7 @@ export const EventList = () => {
 
     const getEvents = async () => {
         const eventsResults = await API.graphql(graphqlOperation(listEvents));
-        const events = eventsResults.data.listEvents.items;
+        const events = eventsResults.data.listEvents?.items;
         setState({
             ...state,
             loading: false,
@@ -32,11 +32,8 @@ export const EventList = () => {
         return <p>Loading...</p>
     }
 
-    else if(state.events.length){
-        // return <ul>{state.events.map((event, index) => <li key={`event-${index}`}><Link to={`/events/${event.id}/edit`}>{event.name}</Link></li>)}</ul>
-
+    else if(state.events && state.events.length){
         return <>
-
             <Box display="flex" justifyContent="flex-end">
                 <Link to="/events/create"><Button color="primary"><Icon>add</Icon>New Event</Button ></Link>
             </Box>
