@@ -13,20 +13,19 @@ export const EventList = () => {
         events: [],
     });
 
-    const getEvents = async () => {
-        const eventsResults = await API.graphql(graphqlOperation(listEvents));
-        const events = eventsResults.data.listEvents?.items;
-        setState({
-            ...state,
-            loading: false,
-            events: events,
-        })
-        return events;
-    }
-
     useEffect(() => {
+        const getEvents = async () => {
+            const eventsResults = await API.graphql(graphqlOperation(listEvents));
+            const events = eventsResults.data.listEvents?.items;
+            setState({
+                loading: false,
+                error: null,
+                events: events,
+            })
+            return events;
+        }
         getEvents();
-    });
+    }, []);
 
     if(state.loading){
         return <p>Loading...</p>
@@ -61,6 +60,11 @@ export const EventList = () => {
         </TableContainer>
       </>
     } else {
-        return <p>No Events found</p>
+        return <>
+            <Box display="flex" justifyContent="flex-end">
+                <Link to="/events/create"><Button color="primary"><Icon>add</Icon>New Event</Button ></Link>
+            </Box>
+            <p>No Events found</p>
+        </>
     }
 }
