@@ -4,6 +4,7 @@ import { useHistory } from "react-router";
 import { Box, Button, TextField, Typography } from "@material-ui/core";
 import { createNewEvent } from "./Api";
 import { UiContext } from "../contexts/UiContext";
+import { EventStatus } from "../models";
 
 const CreateEvent = () => {
 
@@ -16,6 +17,7 @@ const CreateEvent = () => {
         name: "",
         hostUserName: "",
         startDateTime: new Date(),
+        status: EventStatus.DRAFT,
     }
 
     const [state, setState] = useState({...defaultEvent});
