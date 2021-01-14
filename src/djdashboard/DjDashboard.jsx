@@ -1,5 +1,4 @@
 import { withAuthenticator } from '@aws-amplify/ui-react';
-import { API, graphqlOperation, Auth } from 'aws-amplify';
 import { useEffect, useState, useContext } from 'react';
 import { profilesByOwner } from '../graphql/queries';
 import { createProfile, updateProfile } from "../graphql/mutations";
@@ -29,7 +28,7 @@ function DjDashBoard() {
   const onProfileSaved = async ({profile}) => {
     try {
       setState({...state, loading: true});
-      await API.graphql(graphqlOperation(updateProfile, { input: profile }));
+      // await API.graphql(graphqlOperation(updateProfile, { input: profile }));
       openSnackbar("Changes Saved");
     } catch (e) {
       alert(e.errors.map(error => error.message).join("\n"));
@@ -40,8 +39,10 @@ function DjDashBoard() {
 
   useEffect(() => {
       const setUserInfo = async () => {
-        const userInfo = await Auth.currentUserInfo();
-        const profilesResult = await API.graphql(graphqlOperation(profilesByOwner, {owner: userInfo.username}));
+        // const userInfo = await Auth.currentUserInfo();
+        // const profilesResult = await API.graphql(graphqlOperation(profilesByOwner, {owner: userInfo.username}));
+        const userInfo = {username: "dummy"};
+        const profilesResult = [];
         let profile = profilesResult.data.profilesByOwner?.items[0];
 
         if(!profile){
@@ -77,4 +78,4 @@ function DjDashBoard() {
   );
 }
 
-export default withAuthenticator(DjDashBoard);
+export default DjDashBoard;

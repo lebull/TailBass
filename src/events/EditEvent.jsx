@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { withAuthenticator } from "@aws-amplify/ui-react";
 import { useParams } from "react-router";
 import { Typography, TextField, Button, Box } from "@material-ui/core";
 import { UiContext } from "../contexts/UiContext";
@@ -68,4 +67,4 @@ const EditEvent = () => {
         </form>
 }
 
-export default withAuthenticator(EditEvent);
+export default EditEvent;

@@ -1,8 +1,6 @@
 import { Table, TableContainer, TableRow, TableHead, TableCell, TableBody, Paper, Button, Icon, Box } from "@material-ui/core";
-import { API, graphqlOperation } from "aws-amplify";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { listEvents } from "../graphql/queries";
 
 
 export const EventList = () => {
@@ -15,7 +13,8 @@ export const EventList = () => {
 
     useEffect(() => {
         const getEvents = async () => {
-            const eventsResults = await API.graphql(graphqlOperation(listEvents));
+            // const eventsResults = await API.graphql(graphqlOperation(listEvents));
+            const eventsResults = await [];
             const events = eventsResults.data.listEvents?.items;
             setState({
                 loading: false,

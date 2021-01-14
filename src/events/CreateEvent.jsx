@@ -1,5 +1,4 @@
 import React, { useCallback, useState, useContext } from "react";
-import { withAuthenticator } from "@aws-amplify/ui-react";
 import { useHistory } from "react-router";
 import { Box, Button, TextField, Typography } from "@material-ui/core";
 import { createNewEvent } from "./Api";
@@ -55,4 +54,4 @@ const CreateEvent = () => {
         </form>
 }
 
-export default withAuthenticator(CreateEvent);
+export default CreateEvent;

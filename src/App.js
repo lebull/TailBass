@@ -1,8 +1,5 @@
 import './App.scss';
 
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
-
 import { DJList } from './components/DJList';
 import {
   BrowserRouter as Router,
@@ -15,8 +12,6 @@ import { Home } from './home/Home';
 import { Layout } from './layout/Layout';
 import { AuthProvider } from './contexts/AuthContext';
 import { UiProvider } from './contexts/UiContext';
-
-Amplify.configure(awsconfig);
 
 function App() {
   return (
