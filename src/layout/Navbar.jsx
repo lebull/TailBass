@@ -1,7 +1,6 @@
 import React from "react";
 import { AppBar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import { Auth } from "aws-amplify";
 import { AuthConsumer } from "../contexts/AuthContext";
 import { AccountCircle } from "@material-ui/icons";
 
@@ -71,7 +70,7 @@ const SignedInAppBar = () => {
                         onClose={handleClose}
                 >
                         <MenuItem onClick={()=>{handleClose(); navTo("/djdashboard");}}>Dj Dashboard</MenuItem>
-                        <MenuItem onClick={()=>{handleClose(); Auth.signOut(); navTo("/");}}>Sign Out</MenuItem>
+                        <MenuItem onClick={()=>{handleClose(); /*Auth.signOut();*/ navTo("/");}}>Sign Out</MenuItem>
                     </Menu>
         
                 </Toolbar>

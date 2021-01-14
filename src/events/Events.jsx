@@ -1,5 +1,4 @@
 import React from "react";
-import { withAuthenticator } from "@aws-amplify/ui-react";
 import { Route, Switch, useRouteMatch } from "react-router";
 import CreateEvent from "./CreateEvent";
 import EditEvent from "./EditEvent";
@@ -25,4 +24,4 @@ const Events = () => {
   </Box>
 }
 
-export default withAuthenticator(Events);
+export default Events;

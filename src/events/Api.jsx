@@ -1,8 +1,3 @@
-
-import { API, graphqlOperation } from "aws-amplify";
-import { getEvent as getEventQuery } from "../graphql/queries";
-import { createEvent, updateEvent } from "../graphql/mutations";
-
 export const cleanEvent = (event) => ({
     id: event.id,
     name: event.name,
@@ -11,16 +6,19 @@ export const cleanEvent = (event) => ({
 })
 
 const getEvent = async ({eventId}) => {
-    return await API.graphql(graphqlOperation(getEventQuery, {id: eventId}));
+    // return await API.graphql(graphqlOperation(getEventQuery, {id: eventId}));
+    return new Promise();
 }
 
 const createNewEvent = async ({event}) => {
-    return await API.graphql(graphqlOperation(createEvent, {input: event}));
+    // return await API.graphql(graphqlOperation(createEvent, {input: event}));
+    return new Promise();
 }
 
 const editEvent = async({event}) => {
-    const cleanedEvent = cleanEvent(event);
-    await API.graphql(graphqlOperation(updateEvent, {input: cleanedEvent}));
+    // const cleanedEvent = cleanEvent(event);
+    // await API.graphql(graphqlOperation(updateEvent, {input: cleanedEvent}));
+    return new Promise();
 }
 
 export { createNewEvent, editEvent, getEvent };

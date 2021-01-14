@@ -1,9 +1,4 @@
-import { withAuthenticator } from '@aws-amplify/ui-react';
 import { useEffect, useState, useContext } from 'react';
-import { profilesByOwner } from '../graphql/queries';
-import { createProfile, updateProfile } from "../graphql/mutations";
-
-import { Profile } from "../models";
 import { DjInfo } from './DjInfo';
 import { Box, Paper, Typography } from '@material-ui/core';
 import { UiContext } from '../contexts/UiContext';
@@ -17,12 +12,13 @@ function DjDashBoard() {
   const { openSnackbar } = useContext(UiContext);
   
   const createNewProfile = async ({owner}) => {
-    const newProfile = new Profile({
-      "owner": owner,
-      "djname": "Lorem ipsum dolor sit amet",
-      "genre": "Lorem ipsum dolor sit amet"
-    });
-    return await API.graphql(graphqlOperation(createProfile, {input: newProfile}));
+    // const newProfile = {
+    //   "owner": owner,
+    //   "djname": "Lorem ipsum dolor sit amet",
+    //   "genre": "Lorem ipsum dolor sit amet"
+    // }
+    // return await{ API.graphql(graphqlOperation(createProfile, {input: newProfile}));}
+    return;
   }
 
   const onProfileSaved = async ({profile}) => {
