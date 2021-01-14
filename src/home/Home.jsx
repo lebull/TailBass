@@ -9,7 +9,7 @@ export const Home = () => <>
     <NextEvent />
     <Container>
         <FirebaseAuthConsumer>
-            {({isSignedIn, auth}) => {debugger; return isSignedIn ? "": <CallToPlay />}}
+            {({isSignedIn}) => isSignedIn ? "" : <CallToPlay />}
         </FirebaseAuthConsumer>
         <UpcomingEvents />
         <p>Discord Link</p>

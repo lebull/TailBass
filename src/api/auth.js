@@ -1,4 +1,4 @@
-import firebase from 'firebase'
+import firebase from 'firebase';
 
  export const auth = {
   // firebase helper methods go here... 

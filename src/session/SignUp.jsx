@@ -5,7 +5,7 @@ import { auth } from "../api/auth";
 export const SignUp = () => {
 
     const [inputs, setInputs] = useState({email: '', password: ''});
-    const [errors, setErrors] = useState([]);
+    // const [errors, setErrors] = useState([]);
 
     const handleChange = (event) => {
         const target = event.target;
