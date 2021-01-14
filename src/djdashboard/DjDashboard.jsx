@@ -38,12 +38,17 @@ function DjDashBoard() {
         // const userInfo = await Auth.currentUserInfo();
         // const profilesResult = await API.graphql(graphqlOperation(profilesByOwner, {owner: userInfo.username}));
         const userInfo = {username: "dummy"};
-        const profilesResult = [];
-        let profile = profilesResult.data.profilesByOwner?.items[0];
+        // const profilesResult = [];
+        // let profile = profilesResult.data.profilesByOwner?.items[0];
 
-        if(!profile){
-          profile = await createNewProfile({owner: userInfo.username})
+        // if(!profile){
+        //   profile = await createNewProfile({owner: userInfo.username})
+        // }
+
+        const profile = {
+
         }
+
 
         setState({
           loading: false,
