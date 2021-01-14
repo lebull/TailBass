@@ -1,6 +1,5 @@
 import './App.scss';
 
-import { DJList } from './components/DJList';
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,12 +9,16 @@ import DjDashBoard from './djdashboard/DjDashboard';
 import Events from './events/Events';
 import { Home } from './home/Home';
 import { Layout } from './layout/Layout';
-import { AuthProvider } from './contexts/AuthContext';
 import { UiProvider } from './contexts/UiContext';
+import { FirebaseAuthProvider } from '@react-firebase/auth';
+import { firebaseConfig } from "./firebase.conf";
+import firebase from "firebase/app";
+import { SignUp } from './session/SignUp';
+import { SignIn } from './session/SignIn';
 
 function App() {
   return (
-      <AuthProvider>
+      <FirebaseAuthProvider firebase={firebase} {...firebaseConfig}>
         <UiProvider>
           <Router>
             <Layout>
@@ -26,8 +29,11 @@ function App() {
                 <Route path="/events">
                   <Events />
                 </Route>
-                <Route path="/poster">
-                  <DJList />
+                <Route path="/signup">
+                  <SignUp />
+                </Route>
+                <Route path="/signin">
+                  <SignIn />
                 </Route>
                 <Route path="/">
                   <Home />
@@ -36,7 +42,7 @@ function App() {
             </Layout>
           </Router>
         </UiProvider>
-      </AuthProvider>
+      </FirebaseAuthProvider>
   );
 }
 

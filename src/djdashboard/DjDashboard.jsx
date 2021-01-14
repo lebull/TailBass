@@ -11,15 +11,15 @@ function DjDashBoard() {
 
   const { openSnackbar } = useContext(UiContext);
   
-  const createNewProfile = async ({owner}) => {
-    // const newProfile = {
-    //   "owner": owner,
-    //   "djname": "Lorem ipsum dolor sit amet",
-    //   "genre": "Lorem ipsum dolor sit amet"
-    // }
-    // return await{ API.graphql(graphqlOperation(createProfile, {input: newProfile}));}
-    return;
-  }
+  // const createNewProfile = async ({owner}) => {
+  //   // const newProfile = {
+  //   //   "owner": owner,
+  //   //   "djname": "Lorem ipsum dolor sit amet",
+  //   //   "genre": "Lorem ipsum dolor sit amet"
+  //   // }
+  //   // return await{ API.graphql(graphqlOperation(createProfile, {input: newProfile}));}
+  //   return;
+  // }
 
   const onProfileSaved = async ({profile}) => {
     try {

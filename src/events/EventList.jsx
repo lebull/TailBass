@@ -14,7 +14,7 @@ export const EventList = () => {
     useEffect(() => {
         const getEvents = async () => {
             // const eventsResults = await API.graphql(graphqlOperation(listEvents));
-            const eventsResults = await [];
+            // const eventsResults = await [];
             // const events = eventsResults.data.listEvents?.items;
             const events = [];
             setState({

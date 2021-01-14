@@ -1,12 +1,13 @@
 import React from "react";
 import { AppBar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import { AuthConsumer } from "../contexts/AuthContext";
 import { AccountCircle } from "@material-ui/icons";
+import { FirebaseAuthConsumer } from "@react-firebase/auth";
+import { auth } from "../api/auth";
 
-export const Navbar = () => <AuthConsumer>
-        {auth => auth.user ? <SignedInAppBar/> : ""}
-    </AuthConsumer>
+export const Navbar = () => <FirebaseAuthConsumer>
+     {({ isSignedIn, user, providerId }) => <SignedInAppBar/>}
+</FirebaseAuthConsumer>
 
 const SignedInAppBar = () => {
 
@@ -25,14 +26,14 @@ const SignedInAppBar = () => {
     };
 
     const isUserAdmin = user => {
-        const groups = user.signInUserSession.accessToken.payload["cognito:groups"];
-        if(groups){
-            return groups.includes("admin");
-        }
-        return false
+        // const groups = user.signInUserSession.accessToken.payload["cognito:groups"];
+        // if(groups){
+        //     return groups.includes("admin");
+        // }
+        return true
     };
 
-    return <AuthConsumer>{({user}) => 
+    return <FirebaseAuthConsumer>{({ isSignedIn, user, providerId }) => 
             <AppBar position="static">
                 <Toolbar>
                     {/* Left Side */}
@@ -70,11 +71,11 @@ const SignedInAppBar = () => {
                         onClose={handleClose}
                 >
                         <MenuItem onClick={()=>{handleClose(); navTo("/djdashboard");}}>Dj Dashboard</MenuItem>
-                        <MenuItem onClick={()=>{handleClose(); /*Auth.signOut();*/ navTo("/");}}>Sign Out</MenuItem>
+                        <MenuItem onClick={()=>{handleClose(); auth.signOut(); navTo("/");}}>Sign Out</MenuItem>
                     </Menu>
         
                 </Toolbar>
         </AppBar>
     }
-    </AuthConsumer>
+    </FirebaseAuthConsumer>
 }
