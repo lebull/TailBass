@@ -106,11 +106,10 @@ export const syncProfiles = /* GraphQL */ `
 export const getEventAssignment = /* GraphQL */ `
   query GetEventAssignment($id: ID!) {
     getEventAssignment(id: $id) {
-      id
-      status
       slotNumber
       profileID
       eventID
+      id
       _version
       _deleted
       _lastChangedAt
@@ -142,11 +141,10 @@ export const listEventAssignments = /* GraphQL */ `
       nextToken: $nextToken
     ) {
       items {
-        id
-        status
         slotNumber
         profileID
         eventID
+        id
         _version
         _deleted
         _lastChangedAt
@@ -172,11 +170,10 @@ export const syncEventAssignments = /* GraphQL */ `
       lastSync: $lastSync
     ) {
       items {
-        id
-        status
         slotNumber
         profileID
         eventID
+        id
         _version
         _deleted
         _lastChangedAt

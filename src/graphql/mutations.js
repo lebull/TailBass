@@ -73,11 +73,10 @@ export const createEventAssignment = /* GraphQL */ `
     $condition: ModelEventAssignmentConditionInput
   ) {
     createEventAssignment(input: $input, condition: $condition) {
-      id
-      status
       slotNumber
       profileID
       eventID
+      id
       _version
       _deleted
       _lastChangedAt
@@ -103,11 +102,10 @@ export const updateEventAssignment = /* GraphQL */ `
     $condition: ModelEventAssignmentConditionInput
   ) {
     updateEventAssignment(input: $input, condition: $condition) {
-      id
-      status
       slotNumber
       profileID
       eventID
+      id
       _version
       _deleted
       _lastChangedAt
@@ -133,11 +131,10 @@ export const deleteEventAssignment = /* GraphQL */ `
     $condition: ModelEventAssignmentConditionInput
   ) {
     deleteEventAssignment(input: $input, condition: $condition) {
-      id
-      status
       slotNumber
       profileID
       eventID
+      id
       _version
       _deleted
       _lastChangedAt

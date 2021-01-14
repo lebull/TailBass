@@ -61,11 +61,10 @@ export const onDeleteProfile = /* GraphQL */ `
 export const onCreateEventAssignment = /* GraphQL */ `
   subscription OnCreateEventAssignment {
     onCreateEventAssignment {
-      id
-      status
       slotNumber
       profileID
       eventID
+      id
       _version
       _deleted
       _lastChangedAt
@@ -88,11 +87,10 @@ export const onCreateEventAssignment = /* GraphQL */ `
 export const onUpdateEventAssignment = /* GraphQL */ `
   subscription OnUpdateEventAssignment {
     onUpdateEventAssignment {
-      id
-      status
       slotNumber
       profileID
       eventID
+      id
       _version
       _deleted
       _lastChangedAt
@@ -115,11 +113,10 @@ export const onUpdateEventAssignment = /* GraphQL */ `
 export const onDeleteEventAssignment = /* GraphQL */ `
   subscription OnDeleteEventAssignment {
     onDeleteEventAssignment {
-      id
-      status
       slotNumber
       profileID
       eventID
+      id
       _version
       _deleted
       _lastChangedAt
