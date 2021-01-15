@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Typography, TextField, Button, Box } from "@material-ui/core";
 import { UiContext } from "../contexts/UiContext";
-import { editEvent, getEvent } from "./Api";
+import { api } from "../api";
+
 
 const EditEvent = () => {
 
@@ -18,7 +19,7 @@ const EditEvent = () => {
 
     useEffect(() => {
         const getEventAsync = async () => {
-            const eventResult = await getEvent({eventId});
+            const eventResult = await api.event.editEvent({eventId});
             const event = eventResult.data.getEvent;
             setState({
                 loading: false,
@@ -35,7 +36,7 @@ const EditEvent = () => {
         e.preventDefault();
         const updateEventAsync = async () => {
             try {
-                await editEvent({event: state.event});
+                await api.event.editEvent({event: state.event});
                 openSnackbar("Event Saved Successfully");
             } catch(e){
                 alert(e);

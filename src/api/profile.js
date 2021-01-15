@@ -18,7 +18,7 @@ export const profile = {
         }
     },
 
-    updateProfile : async (userId, profile) => {
+    updateProfile : async (userId, {profile}) => {
         const db = firebase.firestore();
         const profileDocRef = db.collection("profiles").doc(userId);
         await profileDocRef.set(profile);

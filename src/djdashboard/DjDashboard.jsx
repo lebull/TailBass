@@ -20,7 +20,7 @@ function DjDashBoardWithUser({user}) {
   const onProfileSaved = async ({profile}) => {
     try {
       setLoading(true);
-      const result = await api.profile.updateProfile(user.uid, profile);
+      const result = await api.profile.updateProfile(user.uid, {profile});
       setProfile(result);
       openSnackbar("Changes Saved");
     } catch (e) {
