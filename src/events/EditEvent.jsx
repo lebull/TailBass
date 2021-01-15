@@ -19,8 +19,7 @@ const EditEvent = () => {
 
     useEffect(() => {
         const getEventAsync = async () => {
-            const eventResult = await api.event.editEvent({eventId});
-            const event = eventResult.data.getEvent;
+            const event = await api.event.getEvent({uid: eventId});
             setState({
                 loading: false,
                 error: false,
@@ -36,7 +35,7 @@ const EditEvent = () => {
         e.preventDefault();
         const updateEventAsync = async () => {
             try {
-                await api.event.editEvent({event: state.event});
+                await api.event.updateEvent(eventId, {event: state.event});
                 openSnackbar("Event Saved Successfully");
             } catch(e){
                 alert(e);

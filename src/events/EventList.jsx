@@ -1,6 +1,7 @@
 import { Table, TableContainer, TableRow, TableHead, TableCell, TableBody, Paper, Button, Icon, Box } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { api } from "../api";
 
 
 export const EventList = () => {
@@ -13,17 +14,13 @@ export const EventList = () => {
 
     useEffect(() => {
         const getEvents = async () => {
-            // const eventsResults = await API.graphql(graphqlOperation(listEvents));
-            // const eventsResults = await [];
-            // const events = eventsResults.data.listEvents?.items;
-            const events = [];
+            const events = await api.event.listEvents();
             setState({
                 loading: false,
                 error: null,
                 events: events,
-            })
-            return events;
-        }
+            });
+        }   
         getEvents();
     }, []);
 
@@ -42,7 +39,7 @@ export const EventList = () => {
                 <TableRow>
                 <TableCell>Name</TableCell>
                 <TableCell>Host</TableCell>
-                <TableCell>Is Visible</TableCell>
+                {/* <TableCell>Is Visible</TableCell> */}
                 <TableCell align="right">Starts</TableCell>
                 </TableRow>
             </TableHead>
@@ -51,8 +48,8 @@ export const EventList = () => {
                 <TableRow key={event.name}>
                     <TableCell><Link to={`/events/${event.id}/edit`}>{event.name}</Link></TableCell>
                     <TableCell>{event.hostUserName}</TableCell>
-                    <TableCell>{event.visible}</TableCell>
-                    <TableCell align="right">{event.startDateTime}</TableCell>
+                    {/* <TableCell>{event.visible}</TableCell> */}
+                    <TableCell align="right">{event.startDateTime.toString()}</TableCell>
                 </TableRow>
                 ))}
             </TableBody>
