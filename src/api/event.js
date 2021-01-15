@@ -1,23 +1,26 @@
 import firebase from "firebase";
 
+const COLLECTION = "events";
+
 export const event = {
     getEvent : async ({uid}) => {
         const db = firebase.firestore();
-        const profileDocRef = db.collection("events").doc(uid);
-        const profileDoc = await profileDocRef.get();
-        return profileDoc.data();
+        const docRef = db.collection(COLLECTION).doc(uid);
+        const doc = await docRef.get();
+        return doc.data();
     },
 
-    //TODO:  ID really should be separate from this.
     listEvents : async () => {
         const db = firebase.firestore();
-        const collectionRef = db.collection("events");
+        const collectionRef = db.collection(COLLECTION);
         const queryResult = await collectionRef.get();
         const result = [];
         queryResult.forEach(doc => {
                 result.push({
                     id: doc.id,
-                    ...doc.data()
+                    doc: {
+                        ...doc.data()
+                    }
                 }
             )
         });
@@ -26,14 +29,14 @@ export const event = {
 
     createEvent : async ({event}) => {
         const db = firebase.firestore();
-        const collectionRef = db.collection("events");
+        const collectionRef = db.collection(COLLECTION);
         const result = await collectionRef.add(event);
         return result;
     },
 
     updateEvent : async(uid, {event}) => {
         const db = firebase.firestore();
-        const docRef = db.collection("profiles").doc(uid);
+        const docRef = db.collection(COLLECTION).doc(uid);
         await docRef.set(event);
         const docRefAfter = await docRef.get();
         return docRefAfter.data();

@@ -18,7 +18,7 @@ export const EventList = () => {
             setState({
                 loading: false,
                 error: null,
-                events: events,
+                events: events.map(event => ({id: event.id, ...event.doc})),
             });
         }   
         getEvents();
