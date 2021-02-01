@@ -1,22 +1,22 @@
 const EventStatus = {
-    DRAFT: {
-        value: "DRAFT",
-        text: "Draft",
-    },
-    OPENSIGNUP: {
-        value: "OPENSIGNUP",
-        text: "Open Sign Up",
-    },
+  DRAFT: {
+    value: "DRAFT",
+    text: "Draft",
+  },
+  OPENSIGNUP: {
+    value: "OPENSIGNUP",
+    text: "Open Sign Up",
+  },
 
-    PUBLISHED: {
-        value: "PUBLISHED",
-        text: "Published",
-    },
+  PUBLISHED: {
+    value: "PUBLISHED",
+    text: "Published",
+  },
 
-    CANCELED: {
-        value: "CANCELED",
-        text: "Cancelled",
-    },
-}
+  CANCELED: {
+    value: "CANCELED",
+    text: "Cancelled",
+  },
+};
 
-export { EventStatus };
+export default EventStatus;

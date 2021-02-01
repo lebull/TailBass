@@ -1,3 +1,5 @@
-import { EventStatus } from "./eventStatus";
+/* eslint-disable import/prefer-default-export */
 
-export { EventStatus as EventStatusType }
+import EventStatus from "./eventStatus";
+
+export { EventStatus as EventStatusType };

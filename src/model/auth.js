@@ -1,22 +1,24 @@
-import firebase from 'firebase';
+import firebase from "firebase";
 
- export const auth = {
-  // firebase helper methods go here... 
+const auth = {
+  // firebase helper methods go here...
   signUp: async (email, password) => {
     try {
-      return await firebase.auth().createUserWithEmailAndPassword(email,password) 
+      return await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password);
     } catch (err) {
-      console.error(err);
+      return false;
     }
   },
   signIn: async (email, password) => {
-    try{
-      return await firebase.auth().signInWithEmailAndPassword(email,password)
-    }catch (err) {
-      console.error(err);
+    try {
+      return await firebase.auth().signInWithEmailAndPassword(email, password);
+    } catch (err) {
+      return false;
     }
   },
-  signOut: async () => {
-    return await firebase.auth().signOut();
-  },
-}
+  signOut: () => firebase.auth().signOut(),
+};
+
+export default auth;

@@ -1,4 +1,4 @@
-import { profile as profileModel } from "./profile";
-import { event as eventModel } from "./event";
+import profile from "./profile";
+import eventModel from "./event";
 
-export { profileModel, eventModel};
+export { profile as profileModel, eventModel };
