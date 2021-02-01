@@ -4,6 +4,8 @@ import { Typography, TextField, Button, Box } from "@material-ui/core";
 import { UiContext } from "../contexts/UiContext";
 import { api } from "../api";
 
+import { EventStatus } from "../api/eventStatus";
+
 
 const EditEvent = () => {
 
@@ -19,7 +21,7 @@ const EditEvent = () => {
 
     useEffect(() => {
         const getEventAsync = async () => {
-            const event = await api.event.getEvent({uid: eventId});
+            const event = await api.event.getEvent({ uid: eventId });
             setState({
                 loading: false,
                 error: false,
@@ -35,36 +37,164 @@ const EditEvent = () => {
         e.preventDefault();
         const updateEventAsync = async () => {
             try {
-                await api.event.updateEvent(eventId, {event: state.event});
+                await api.event.updateEvent(eventId, { event: state.event });
                 openSnackbar("Event Saved Successfully");
-            } catch(e){
+            } catch (e) {
+                console.error(e);
                 alert(e);
             }
         };
         updateEventAsync();
     }
 
-    const handleChange = (event) => {
-        const target = event.target;
-        setState({...state, event: { ...state.event, [target.name]: target.type === 'checkbox' ? target.checked : target.value}});
+    //TODO: Dis Ugly
+    const setEventStatus = (status) => {
+        const updateEventAsync = async () => {
+            try {
+                const result = await api.event.updateEvent(eventId, { event: { ...state.event, status } });
+                // console.log(result);
+                setState({...state, event: result})
+                openSnackbar("Event Saved Successfully");
+            } catch (e) {
+                console.error(e);
+                alert(e);
+            }
+        };
+        updateEventAsync();
     }
 
-    if(state.loading){
+
+    const handleChange = (e) => {
+        const target = e.target;
+        setState({ ...state, event: { ...state.event, [target.name]: target.type === 'checkbox' ? target.checked : target.value } });
+    }
+
+    if (state.loading) {
         return <p>Loading...</p>
     }
 
-    if(state.error){
+    if (state.error) {
         return <p>Error</p>
     }
 
-    return <form onSubmit={onSubmit}>
-            <Box display="flex" flexDirection="column" alignItems="flex-start">
-                <Typography variant="h4" align="center" gutterBottom>Edit Event</Typography>
-                <TextField label="Event Name" name="name" value={state.event.name} onChange={handleChange} margin="normal" required/>
-                <TextField label="Host Name"name="hostUserName" value={state.event.hostUserName} onChange={handleChange} margin="normal" required/>
-                <Button type="submit" variant="contained" color="primary" margin="normal">Save</Button>
+
+    return <Box display="flex" flexDirection="column" alignItems="flex-start">
+        <Typography variant="h4" align="center" gutterBottom>{state.event.name}</Typography>
+        <Typography variant="p" align="center" gutterBottom>{state.event.status.text}</Typography>
+        <Box display="flex" flexDirection="row" alignItems="flex-start" width="100%">
+            <Box>
+                <EventDetails event={state.event} onSubmit={onSubmit} handleChange={handleChange} />
+                <hr />
+                <EventActions event={state.event} setEventStatus={setEventStatus} />
             </Box>
-        </form>
+            <EventAssignments event={state.event} />
+        </Box>
+    </Box>
 }
 
 export default EditEvent;
+
+const EventActions = ({ event, setEventStatus }) => {
+
+    const buttonsToShow = [];
+
+    if (event.status === EventStatus.DRAFT.value) {
+        buttonsToShow.push({ nextStatus: "OPENSIGNUP", text: "Open Sign Ups" });
+    }
+
+    // if(event.status.value === EventStatus.OPENSIGNUP.value) {
+    //     buttonsToShow.push({nextStatus: "PUBLISHED", text: "Publish Event"});
+    // }
+
+    if (event.status !== EventStatus.CANCELED.value) {
+        buttonsToShow.push({ nextStatus: "CANCELED", text: "Cancel Event", buttonProps: { variant: "outlined", color: "secondary" }  });
+    }
+
+    // Debugging only
+    buttonsToShow.push({ nextStatus: "DRAFT", text: "Revert to Draft", buttonProps: { variant: "outlined" } });
+
+    return <Box display="flex" flexDirection="column" alignItems="flex-start">
+        {
+            buttonsToShow.map((eventStatusButton) => {
+                return <Box component="span" m={1} width="100%">
+                    <Button variant="contained" color="primary" onClick={() => setEventStatus(eventStatusButton.nextStatus)} { ...eventStatusButton.buttonProps } fullWidth>
+                        {eventStatusButton.text}
+                    </Button>
+                </Box>;
+            })
+        }
+    </Box>
+}
+
+
+const EventDetails = ({ event, handleChange, onSubmit }) => <Box display="flex" flexDirection="column" alignItems="flex-start">
+    <form onSubmit={onSubmit}>
+        <Box display="flex" flexDirection="column" alignItems="flex-start">
+
+            <Typography variant="h6" align="center" gutterBottom>Details</Typography>
+
+            <TextField
+                label="Event Name"
+                name="name"
+                value={event.name}
+                onChange={handleChange}
+                margin="normal"
+                required
+            />
+
+            {/* Hostname */}
+            <TextField
+                label="Host Name"
+                name="hostUserName"
+                value={event.hostUserName}
+                onChange={handleChange}
+                margin="normal"
+                required
+            />
+
+            {/* Number of Slots */}
+            <TextField
+                label="Number of Slots"
+                type="number"
+                name="numberOfSlots"
+                value={event.numberOfSlots}
+                onChange={handleChange}
+                margin="normal"
+                required
+            />
+
+            {/* DateTime */}
+            <TextField
+                id="datetime-local"
+                label="Start Time (Local)"
+                type="datetime-local"
+                name="startDateTime"
+                value={event.startDateTime}
+                onChange={handleChange}
+                margin="normal"
+                InputLabelProps={{
+                    shrink: true,
+                }}
+                required
+            />
+
+            {/* Description */}
+            <TextField
+                label="Description"
+                name="description"
+                value={event.description}
+                onChange={handleChange}
+                margin="normal"
+                multiline
+                variant="outlined"
+                rows={4}
+            />
+            <Button type="submit" variant="contained" color="primary" margin="normal">Save</Button>
+
+        </Box>
+    </form>
+</Box>
+
+const EventAssignments = ({ event }) => <Box display="flex" flexGrow={1} flexDirection="column" alignItems="flex-start">
+    {Array.from(new Array(event.numberOfSlots ? event.numberOfSlots : 0)).map((i) => <p>Slot</p>)}
+</Box>

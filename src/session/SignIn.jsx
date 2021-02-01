@@ -19,10 +19,8 @@ export const SignIn = () => {
         e.preventDefault();
         try {
             await auth.signIn(inputs.email, inputs.password);
-            debugger; 
         } catch(err){
             console.error(err);
-            debugger;
         }
     };
 
@@ -31,7 +29,7 @@ export const SignIn = () => {
                 <Typography variant="h4" align="center" gutterBottom>Sign In</Typography>
                 <TextField label="Email"name="email" type="email" value={inputs.email} onChange={handleChange} margin="normal" required/>
                 <TextField label="Password" name="password" type="password" value={inputs.password} onChange={handleChange} margin="normal" required/>
-                <Button type="submit" variant="contained" color="primary" margin="normal">Sign Up</Button>
+                <Button type="submit" variant="contained" color="primary" margin="normal">Sign In</Button>
             </Box>
         </form>
 }
