@@ -13,47 +13,44 @@ const EditEvent = () => {
 
     const { eventId } = useParams();
 
-    const [state, setState] = useState({
-        loading: true,
-        error: null,
-        event: {}
-    });
+    const [loading, setLoading] = useState(true);
+
+    const [errors, setErrors] = useState([]);
+
+    const [event, setEvent] = useState({});
 
     useEffect(() => {
         const getEventAsync = async () => {
             const event = await api.event.getEvent({ uid: eventId });
-            setState({
-                loading: false,
-                error: false,
-                event,
-            });
+            setLoading(false);
+            setEvent(event);
         }
         getEventAsync();
 
     }, [eventId]);
 
-    //TODO: Dis Ugly
     const onSubmit = (e) => {
         e.preventDefault();
         const updateEventAsync = async () => {
             try {
-                await api.event.updateEvent(eventId, { event: state.event });
+                const result = await api.event.updateEvent(eventId, { event });
+                setEvent(result);
                 openSnackbar("Event Saved Successfully");
             } catch (e) {
                 console.error(e);
-                alert(e);
+                setErrors([...errors, e]);
+                openSnackbar(e.message);
             }
         };
         updateEventAsync();
     }
 
-    //TODO: Dis Ugly
     const setEventStatus = (status) => {
         const updateEventAsync = async () => {
             try {
-                const result = await api.event.updateEvent(eventId, { event: { ...state.event, status } });
-                // console.log(result);
-                setState({...state, event: result})
+                const result = await api.event.updateEvent(eventId, { event: { ...event, status: EventStatus[status] } });
+                setEvent(result);
+                setEvent(event);
                 openSnackbar("Event Saved Successfully");
             } catch (e) {
                 console.error(e);
@@ -66,28 +63,27 @@ const EditEvent = () => {
 
     const handleChange = (e) => {
         const target = e.target;
-        setState({ ...state, event: { ...state.event, [target.name]: target.type === 'checkbox' ? target.checked : target.value } });
+        setEvent({event: { ...event, [target.name]: target.type === 'checkbox' ? target.checked : target.value } });
     }
 
-    if (state.loading) {
+    if (loading) {
         return <p>Loading...</p>
     }
 
-    if (state.error) {
+    if (errors.length) {
         return <p>Error</p>
     }
 
-
     return <Box display="flex" flexDirection="column" alignItems="flex-start">
-        <Typography variant="h4" align="center" gutterBottom>{state.event.name}</Typography>
-        <Typography variant="p" align="center" gutterBottom>{state.event.status.text}</Typography>
+        <Typography variant="h4" align="center" gutterBottom>{event.name}</Typography>
+        <Typography variant="p" align="center" gutterBottom>{event.status?.text}</Typography>
         <Box display="flex" flexDirection="row" alignItems="flex-start" width="100%">
             <Box>
-                <EventDetails event={state.event} onSubmit={onSubmit} handleChange={handleChange} />
+                <EventDetails event={event} onSubmit={onSubmit} handleChange={handleChange} />
                 <hr />
-                <EventActions event={state.event} setEventStatus={setEventStatus} />
+                <EventActions event={event} setEventStatus={setEventStatus} />
             </Box>
-            <EventAssignments event={state.event} />
+            <EventAssignments event={event} />
         </Box>
     </Box>
 }
@@ -98,19 +94,14 @@ const EventActions = ({ event, setEventStatus }) => {
 
     const buttonsToShow = [];
 
-    if (event.status === EventStatus.DRAFT.value) {
+    if (event.status?.value === EventStatus.DRAFT.value) {
         buttonsToShow.push({ nextStatus: "OPENSIGNUP", text: "Open Sign Ups" });
     }
 
-    // if(event.status.value === EventStatus.OPENSIGNUP.value) {
-    //     buttonsToShow.push({nextStatus: "PUBLISHED", text: "Publish Event"});
-    // }
-
-    if (event.status !== EventStatus.CANCELED.value) {
+    if (event.status?.value !== EventStatus.CANCELED.value) {
         buttonsToShow.push({ nextStatus: "CANCELED", text: "Cancel Event", buttonProps: { variant: "outlined", color: "secondary" }  });
     }
 
-    // Debugging only
     buttonsToShow.push({ nextStatus: "DRAFT", text: "Revert to Draft", buttonProps: { variant: "outlined" } });
 
     return <Box display="flex" flexDirection="column" alignItems="flex-start">
@@ -147,17 +138,6 @@ const EventDetails = ({ event, handleChange, onSubmit }) => <Box display="flex" 
                 label="Host Name"
                 name="hostUserName"
                 value={event.hostUserName}
-                onChange={handleChange}
-                margin="normal"
-                required
-            />
-
-            {/* Number of Slots */}
-            <TextField
-                label="Number of Slots"
-                type="number"
-                name="numberOfSlots"
-                value={event.numberOfSlots}
                 onChange={handleChange}
                 margin="normal"
                 required
