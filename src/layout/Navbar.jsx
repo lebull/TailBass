@@ -3,7 +3,7 @@ import { AppBar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Typography } 
 import { useHistory } from "react-router-dom";
 import { AccountCircle } from "@material-ui/icons";
 import { FirebaseAuthConsumer } from "@react-firebase/auth";
-import { auth } from "../api/auth";
+import { auth } from "../model/auth";
 
 export const Navbar = () => <FirebaseAuthConsumer>
      {({ isSignedIn, user, providerId }) => <SignedInAppBar/>}

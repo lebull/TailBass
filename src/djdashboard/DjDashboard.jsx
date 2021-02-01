@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import { DjInfo } from './DjInfo';
 import { Box, Paper, Typography } from '@material-ui/core';
 import { UiContext } from '../contexts/UiContext';
-import { api } from "../api";
+import { profileModel } from "../model";
 import { FirebaseAuthConsumer } from '@react-firebase/auth';
 
 const DjDashBoard = () => <FirebaseAuthConsumer>
@@ -20,7 +20,7 @@ function DjDashBoardWithUser({user}) {
   const onProfileSaved = async ({profile}) => {
     try {
       setLoading(true);
-      const result = await api.profile.updateProfile(user.uid, {profile});
+      const result = await profileModel.updateProfile(user.uid, {profile});
       setProfile(result);
       openSnackbar("Changes Saved");
     } catch (e) {
@@ -37,7 +37,7 @@ function DjDashBoardWithUser({user}) {
     }
 
       const setUserInfo = async () => {
-        const profile = await api.profile.getProfile(user.uid);
+        const profile = await profileModel.getProfile(user.uid);
         setProfile(profile);
         setLoading(false);
       };

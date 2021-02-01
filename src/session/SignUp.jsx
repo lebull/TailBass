@@ -1,6 +1,6 @@
 import { Box, TextField, Typography, Button } from "@material-ui/core";
 import React, { useState } from "react";
-import { auth } from "../api/auth";
+import { auth } from "../model/auth";
 
 export const SignUp = () => {
 

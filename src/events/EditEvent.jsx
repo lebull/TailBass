@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Typography, TextField, Button, Box } from "@material-ui/core";
 import { UiContext } from "../contexts/UiContext";
-import { api } from "../api";
+import { eventModel } from "../model";
 
-import { EventStatus } from "../api/eventStatus";
+import { EventStatus } from "../model/eventStatus";
 
 
 const EditEvent = () => {
@@ -21,7 +21,7 @@ const EditEvent = () => {
 
     useEffect(() => {
         const getEventAsync = async () => {
-            const event = await api.event.getEvent({ uid: eventId });
+            const event = await eventModel.getEvent({ uid: eventId });
             setLoading(false);
             setEvent(event);
         }
@@ -33,7 +33,7 @@ const EditEvent = () => {
         e.preventDefault();
         const updateEventAsync = async () => {
             try {
-                const result = await api.event.updateEvent(eventId, { event });
+                const result = await eventModel.updateEvent(eventId, { event });
                 setEvent(result);
                 openSnackbar("Event Saved Successfully");
             } catch (e) {
@@ -48,7 +48,7 @@ const EditEvent = () => {
     const setEventStatus = (status) => {
         const updateEventAsync = async () => {
             try {
-                const result = await api.event.updateEvent(eventId, { event: { ...event, status: EventStatus[status] } });
+                const result = await eventModel.updateEvent(eventId, { event: { ...event, status: EventStatus[status] } });
                 setEvent(result);
                 setEvent(event);
                 openSnackbar("Event Saved Successfully");

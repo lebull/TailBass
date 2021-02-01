@@ -2,7 +2,7 @@ import React, { useCallback, useState, useContext } from "react";
 import { useHistory } from "react-router";
 import { Box, Button, TextField, Typography } from "@material-ui/core";
 import { UiContext } from "../contexts/UiContext";
-import { api } from "../api";
+import { eventModel } from "../model";
 
 const CreateEvent = () => {
 
@@ -26,7 +26,7 @@ const CreateEvent = () => {
         
         const createEventAsync = async () => {
             try {
-                await api.event.createEvent({event: state});
+                await eventModel.createEvent({event: state});
                 navigagteToEvents();
             } catch(e){
                 console.error(e);

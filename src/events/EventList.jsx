@@ -1,7 +1,7 @@
 import { Table, TableContainer, TableRow, TableHead, TableCell, TableBody, Paper, Button, Icon, Box } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { api } from "../api";
+import { eventModel } from "../model";
 
 
 export const EventList = () => {
@@ -14,7 +14,7 @@ export const EventList = () => {
 
     useEffect(() => {
         const getEvents = async () => {
-            const events = await api.event.listEvents();
+            const events = await eventModel.listEvents();
             setState({
                 loading: false,
                 error: null,
