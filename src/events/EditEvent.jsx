@@ -4,7 +4,7 @@ import { Typography, TextField, Button, Box } from "@material-ui/core";
 import { UiContext } from "../contexts/UiContext";
 import { eventModel } from "../model";
 
-import { EventStatus } from "../model/eventStatus";
+import { EventStatusType } from "../model/types";
 
 
 const EditEvent = () => {
@@ -48,7 +48,7 @@ const EditEvent = () => {
     const setEventStatus = (status) => {
         const updateEventAsync = async () => {
             try {
-                const result = await eventModel.updateEvent(eventId, { event: { ...event, status: EventStatus[status] } });
+                const result = await eventModel.updateEvent(eventId, { event: { ...event, status: EventStatusType[status] } });
                 setEvent(result);
                 setEvent(event);
                 openSnackbar("Event Saved Successfully");
@@ -94,11 +94,11 @@ const EventActions = ({ event, setEventStatus }) => {
 
     const buttonsToShow = [];
 
-    if (event.status?.value === EventStatus.DRAFT.value) {
+    if (event.status?.value === EventStatusType.DRAFT.value) {
         buttonsToShow.push({ nextStatus: "OPENSIGNUP", text: "Open Sign Ups" });
     }
 
-    if (event.status?.value !== EventStatus.CANCELED.value) {
+    if (event.status?.value !== EventStatusType.CANCELED.value) {
         buttonsToShow.push({ nextStatus: "CANCELED", text: "Cancel Event", buttonProps: { variant: "outlined", color: "secondary" }  });
     }
 
