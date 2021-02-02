@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Box,
@@ -16,11 +16,13 @@ import auth from "../model/auth";
 
 const Navbar = () => (
   <FirebaseAuthConsumer>
-    {({ isSignedIn }) => (isSignedIn ? <SignedInAppBar /> : "")}
+    {({ isSignedIn, user }) =>
+      isSignedIn ? <SignedInAppBar user={user} /> : ""
+    }
   </FirebaseAuthConsumer>
 );
 
-const SignedInAppBar = () => {
+const SignedInAppBar = ({ user }) => {
   const history = useHistory();
   const navTo = (fullpath) => history.push(fullpath);
 
@@ -35,89 +37,83 @@ const SignedInAppBar = () => {
     setAnchorEl(null);
   };
 
-  /**
-   * This is stubbed right now.
-   */
-  const isUserAdmin = () =>
-    // const groups = user.signInUserSession.accessToken.payload["cognito:groups"];
-    // if(groups){
-    //     return groups.includes("admin");
-    // }
-    true;
+  const [userRoles, setUserRoles] = useState([]);
+
+  useEffect(() => {
+    auth.getUserRoles(user.uid).then((userRolesResult) => {
+      setUserRoles(userRolesResult);
+    });
+  }, [user.uid]);
 
   return (
-    <FirebaseAuthConsumer>
-      {({ user }) => (
-        <AppBar position="static">
-          <Toolbar>
-            {/* Left Side */}
-            <Box display="flex" flexGrow={1}>
-              <Typography variant="h6">Tailbass Scheduler</Typography>
-            </Box>
-            {/* Right Side */}
-            <Button color="inherit" onClick={() => navTo("/")}>
-              Home
-            </Button>
-            {isUserAdmin(user) ? (
-              <Button color="inherit" onClick={() => navTo("/events")}>
-                Events
-              </Button>
-            ) : (
-              ""
-            )}
-            {isUserAdmin(user) ? (
-              <Button color="inherit" onClick={() => navTo("/users")}>
-                Users
-              </Button>
-            ) : (
-              ""
-            )}
-            <IconButton
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleMenu}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={open}
-              onClose={handleClose}
-            >
-              <MenuItem
-                onClick={() => {
-                  handleClose();
-                  navTo("/profile");
-                }}
-              >
-                Profile
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  handleClose();
-                  auth.signOut();
-                  navTo("/");
-                }}
-              >
-                Sign Out
-              </MenuItem>
-            </Menu>
-          </Toolbar>
-        </AppBar>
-      )}
-    </FirebaseAuthConsumer>
+    <AppBar position="static">
+      <Toolbar>
+        {/* Left Side */}
+        <Box display="flex" flexGrow={1}>
+          <Typography variant="h6">Tailbass Scheduler</Typography>
+        </Box>
+        {/* Right Side */}
+        <Button color="inherit" onClick={() => navTo("/")}>
+          Home
+        </Button>
+        {userRoles.includes("admin") ? (
+          <Button color="inherit" onClick={() => navTo("/events")}>
+            Events
+          </Button>
+        ) : (
+          ""
+        )}
+        {userRoles.includes("admin") ? (
+          <Button color="inherit" onClick={() => navTo("/users")}>
+            Users
+          </Button>
+        ) : (
+          ""
+        )}
+        <IconButton
+          aria-label="account of current user"
+          aria-controls="menu-appbar"
+          aria-haspopup="true"
+          onClick={handleMenu}
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+        <Menu
+          id="menu-appbar"
+          anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          open={open}
+          onClose={handleClose}
+        >
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              navTo("/profile");
+            }}
+          >
+            Profile
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              auth.signOut();
+              navTo("/");
+            }}
+          >
+            Sign Out
+          </MenuItem>
+        </Menu>
+      </Toolbar>
+    </AppBar>
   );
 };
 

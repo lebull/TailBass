@@ -19,6 +19,15 @@ const auth = {
     }
   },
   signOut: () => firebase.auth().signOut(),
+  getUserRoles: async (userUid) => {
+    const db = firebase.firestore();
+    const doc = await db.doc(`userRoles/${userUid}`).get();
+    const result = doc.data();
+    if (!doc.exists) {
+      return [];
+    }
+    return result.roles;
+  },
 };
 
 export default auth;
