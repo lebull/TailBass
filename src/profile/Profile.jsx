@@ -5,13 +5,13 @@ import DjInfo from "./DjInfo";
 import { UiContext } from "../contexts/UiContext";
 import { profileModel } from "../model";
 
-const DjDashBoard = () => (
+const Profile = () => (
   <FirebaseAuthConsumer>
-    {({ user }) => <DjDashBoardWithUser user={user} />}
+    {({ user }) => <ProfileWithUser user={user} />}
   </FirebaseAuthConsumer>
 );
 
-function DjDashBoardWithUser({ user }) {
+function ProfileWithUser({ user }) {
   // const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState();
@@ -62,4 +62,4 @@ function DjDashBoardWithUser({ user }) {
   );
 }
 
-export default DjDashBoard;
+export default Profile;

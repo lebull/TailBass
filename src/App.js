@@ -4,7 +4,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { FirebaseAuthProvider } from "@react-firebase/auth";
 import firebase from "firebase/app";
-import DjDashBoard from "./djdashboard/DjDashboard";
+import Profile from "./profile/Profile";
 import Events from "./events/Events";
 import Home from "./home/Home";
 import Layout from "./layout/Layout";
@@ -21,8 +21,8 @@ function App() {
         <Router>
           <Layout>
             <Switch>
-              <Route path="/djdashboard">
-                <DjDashBoard />
+              <Route path="/profile">
+                <Profile />
               </Route>
               <Route path="/events">
                 <Events />

@@ -99,10 +99,10 @@ const SignedInAppBar = () => {
               <MenuItem
                 onClick={() => {
                   handleClose();
-                  navTo("/djdashboard");
+                  navTo("/profile");
                 }}
               >
-                Dj Dashboard
+                Profile
               </MenuItem>
               <MenuItem
                 onClick={() => {
