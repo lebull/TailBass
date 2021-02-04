@@ -7,6 +7,9 @@ const event = {
     const db = firebase.firestore();
     const docRef = db.collection(COLLECTION).doc(uid);
     const doc = await docRef.get();
+    if (!doc.exists) {
+      return null;
+    }
     return doc.data();
   },
 

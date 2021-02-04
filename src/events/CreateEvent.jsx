@@ -3,6 +3,7 @@ import { useHistory } from "react-router";
 import { Box, Button, TextField, Typography } from "@material-ui/core";
 import { UiContext } from "../contexts/UiContext";
 import { eventModel } from "../model";
+import { EventStatusType } from "../model/types";
 
 const CreateEvent = () => {
   const { openSnackbar } = useContext(UiContext);
@@ -16,7 +17,7 @@ const CreateEvent = () => {
     name: "",
     hostUserName: "",
     startDateTime: new Date(),
-    status: "DRAFT", // TODO: Enum
+    status: EventStatusType.DRAFT, // TODO: Enum
   };
 
   const [state, setState] = useState({ ...defaultEvent });

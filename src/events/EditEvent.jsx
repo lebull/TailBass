@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { Typography, TextField, Button, Box } from "@material-ui/core";
+import { Typography, TextField, Button, Box, Grid } from "@material-ui/core";
 import { UiContext } from "../contexts/UiContext";
 import { eventModel } from "../model";
 
@@ -16,6 +16,8 @@ const EditEvent = () => {
   const [errors, setErrors] = useState([]);
 
   const [event, setEvent] = useState({});
+
+  const [editing, setEditing] = useState(false);
 
   useEffect(() => {
     const getEventAsync = async () => {
@@ -62,11 +64,8 @@ const EditEvent = () => {
   const handleChange = (e) => {
     const { target } = e;
     setEvent({
-      event: {
-        ...event,
-        [target.name]:
-          target.type === "checkbox" ? target.checked : target.value,
-      },
+      ...event,
+      [target.name]: target.type === "checkbox" ? target.checked : target.value,
     });
   };
 
@@ -79,31 +78,31 @@ const EditEvent = () => {
   }
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="flex-start">
-      <Typography variant="h4" align="center" gutterBottom>
-        {event.name}
-      </Typography>
-      <Typography variant="p" align="center" gutterBottom>
-        {event.status?.text}
-      </Typography>
-      <Box
-        display="flex"
-        flexDirection="row"
-        alignItems="flex-start"
-        width="100%"
-      >
+    <Grid container>
+      <Grid item xs={12} md>
         <Box>
-          <EventDetails
-            event={event}
-            onSubmit={onSubmit}
-            handleChange={handleChange}
-          />
-          <hr />
-          <EventActions event={event} setEventStatus={setEventStatus} />
+          <Button onClick={() => setEditing(!editing)}>
+            {editing ? "Cancel" : "Edit"}{" "}
+          </Button>
+          {editing ? (
+            <EventDetailsEditing
+              event={event}
+              onSubmit={onSubmit}
+              handleChange={handleChange}
+            />
+          ) : (
+            <>
+              <EventDetails event={event} />
+              <hr />
+              <EventActions event={event} setEventStatus={setEventStatus} />
+            </>
+          )}
         </Box>
+      </Grid>
+      <Grid item xs={12} md={8} lg={10}>
         <EventAssignments event={event} />
-      </Box>
-    </Box>
+      </Grid>
+    </Grid>
   );
 };
 
@@ -131,9 +130,18 @@ const EventActions = ({ event, setEventStatus }) => {
   });
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="flex-start">
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      width={1}
+      p={1}
+    >
+      <Typography variant="h6" align="center" gutterBottom>
+        Actions
+      </Typography>
       {buttonsToShow.map((eventStatusButton) => (
-        <Box component="span" m={1} width="100%">
+        <Box p={1}>
           <Button
             onClick={() => setEventStatus(eventStatusButton.nextStatus)}
             variant={
@@ -146,7 +154,7 @@ const EventActions = ({ event, setEventStatus }) => {
                 ? eventStatusButton?.buttonProps?.color
                 : "primary"
             }
-            fullWidth
+            size="large"
           >
             {eventStatusButton.text}
           </Button>
@@ -156,14 +164,29 @@ const EventActions = ({ event, setEventStatus }) => {
   );
 };
 
-const EventDetails = ({ event, handleChange, onSubmit }) => (
-  <Box display="flex" flexDirection="column" alignItems="flex-start">
-    <form onSubmit={onSubmit}>
-      <Box display="flex" flexDirection="column" alignItems="flex-start">
-        <Typography variant="h6" align="center" gutterBottom>
-          Details
-        </Typography>
+const EventDetails = ({ event }) => (
+  <Box>
+    <Typography variant="h6" gutterBottom>
+      {event.name}
+    </Typography>
+    <Typography variant="body2" gutterBottom>
+      {event.status?.text}
+    </Typography>
+    <Typography variant="body2" gutterBottom>
+      {event.description}
+    </Typography>
+  </Box>
+);
 
+const EventDetailsEditing = ({ event, handleChange, onSubmit }) => (
+  <Box display="flex" flexDirection="column" alignItems="flex-start" width={1}>
+    <form onSubmit={onSubmit} style={{ width: "100%" }}>
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="flex-start"
+        width={1}
+      >
         <TextField
           label="Event Name"
           name="name"
@@ -171,6 +194,7 @@ const EventDetails = ({ event, handleChange, onSubmit }) => (
           onChange={handleChange}
           margin="normal"
           required
+          fullWidth
         />
 
         {/* Hostname */}
@@ -181,6 +205,7 @@ const EventDetails = ({ event, handleChange, onSubmit }) => (
           onChange={handleChange}
           margin="normal"
           required
+          fullWidth
         />
 
         {/* DateTime */}
@@ -196,6 +221,7 @@ const EventDetails = ({ event, handleChange, onSubmit }) => (
             shrink: true,
           }}
           required
+          fullWidth
         />
 
         {/* Description */}
@@ -208,32 +234,110 @@ const EventDetails = ({ event, handleChange, onSubmit }) => (
           multiline
           variant="outlined"
           rows={4}
+          fullWidth
         />
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          margin="normal"
-        >
-          Save
-        </Button>
+        <Box display="flex" alignItems="center">
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            margin="normal"
+          >
+            Save
+          </Button>
+          <Button
+            type="cancel"
+            variant="outlined"
+            color="primary"
+            margin="normal"
+          >
+            Cancel
+          </Button>
+        </Box>
       </Box>
     </form>
   </Box>
 );
 
 const EventAssignments = ({ event }) => (
-  <Box
-    display="flex"
-    flexGrow={1}
-    flexDirection="column"
-    alignItems="flex-start"
-  >
-    {/* {Array.from(new Array(event.numberOfSlots ? event.numberOfSlots : 0)).map(
-      (i) => (
-        <p>Slot</p>
-      )
-    )} */}
-    <p>Slots will go here! {event.name}</p>
+  <Box flexGrow={1} flexDirection="column" alignItems="flex-start" fullWidth>
+    <Typography variant="h6" textAlign="center" gutterBottom>
+      Event Schedule
+    </Typography>
+    {Array.from(new Array(event.numberOfSlots)).map((i, slotNumber) => (
+      <EventAssignment event={event} slotNumber={slotNumber} />
+    ))}
+
+    <Box display="flex" flexDirection="column" alignItems="center">
+      <Typography variant="h6" gutterBottom>
+        Requests to Play
+      </Typography>
+
+      <Box display="flex">
+        {Array.from(new Array(3)).map(() => (
+          <EventAssignmentRequest />
+        ))}
+      </Box>
+    </Box>
+  </Box>
+);
+
+const EventAssignment = ({ event, slotNumber }) => {
+  if (!event.startDateTime) {
+    return "";
+  }
+  const addTime = (startTime, { hours = 0, minutes = 0 }) => {
+    const returnTime = new Date(startTime);
+    returnTime.setHours(startTime.getHours() + hours);
+    returnTime.setMinutes(startTime.getMinutes() + minutes);
+    return returnTime;
+  };
+
+  const formatTime = (time) =>
+    time.toLocaleTimeString([], {
+      timeZoneName: "short",
+      hour: "numeric",
+      minute: "numeric",
+    });
+
+  const slotStartTime = addTime(new Date(event.startDateTime), {
+    hours: slotNumber,
+  });
+  const slotEndTime = addTime(new Date(event.startDateTime), {
+    hours: slotNumber + 1,
+  });
+
+  return (
+    <Box p={2}>
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={3} lg={2}>
+          {slotNumber + 1}
+          <p>
+            {formatTime(slotStartTime)}
+            {" - "}
+            {formatTime(slotEndTime)}
+          </p>
+        </Grid>
+        <Grid item xs>
+          <Box border={1} borderColor="grey.400" p={2}>
+            <Typography variant="h6" gutterBottom>
+              Name
+            </Typography>
+            <p>Genre</p>
+          </Box>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+};
+
+const EventAssignmentRequest = () => (
+  <Box border={1} borderColor="grey.200" boxShadow={0} m={2} p={2}>
+    <Typography variant="h6" gutterBottom>
+      Name
+    </Typography>
+    <p>Genre</p>
+    <p>Played X Times</p>
+    <Button>Approve</Button>
   </Box>
 );

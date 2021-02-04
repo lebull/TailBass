@@ -3,6 +3,7 @@ import { FirebaseAuthConsumer } from "@react-firebase/auth";
 import React from "react";
 import CallToPlay from "./CallToPlay";
 import NextEvent from "./NextEvent";
+import Social from "./Social";
 import UpcomingEvents from "./UpcomingEvents";
 
 export default () => (
@@ -13,7 +14,7 @@ export default () => (
         {({ isSignedIn }) => (isSignedIn ? "" : <CallToPlay />)}
       </FirebaseAuthConsumer>
       <UpcomingEvents />
-      <p>Discord Link</p>
+      <Social />
     </Container>
   </>
 );

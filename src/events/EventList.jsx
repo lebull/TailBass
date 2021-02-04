@@ -66,7 +66,7 @@ export default () => {
                   <TableCell>{event.hostUserName}</TableCell>
                   {/* <TableCell>{event.visible}</TableCell> */}
                   <TableCell align="right">
-                    {event.startDateTime.toString()}
+                    {event.startDateTime?.toString()}
                   </TableCell>
                 </TableRow>
               ))}
