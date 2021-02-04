@@ -1,6 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { Typography, TextField, Button, Box, Grid } from "@material-ui/core";
+import {
+  Typography,
+  TextField,
+  Button,
+  Box,
+  Grid,
+  Divider,
+} from "@material-ui/core";
+import { Alert, AlertTitle } from "@material-ui/lab";
 import { UiContext } from "../contexts/UiContext";
 import { eventModel } from "../model";
 
@@ -36,6 +44,7 @@ const EditEvent = () => {
           updatedEvent: event,
         });
         setEvent(result);
+        setEditing(false);
         openSnackbar("Event Saved Successfully");
       } catch (error) {
         setErrors([...errors, error]);
@@ -52,7 +61,6 @@ const EditEvent = () => {
           updatedEvent: { ...event, status: EventStatusType[status] },
         });
         setEvent(result);
-        setEvent(event);
         openSnackbar("Event Saved Successfully");
       } catch (error) {
         openSnackbar(error.message);
@@ -62,10 +70,20 @@ const EditEvent = () => {
   };
 
   const handleChange = (e) => {
+    const mapTargetValue = (target) => {
+      if (target.type === "checkbox") {
+        return target.checked;
+      }
+      if (target.type === "number") {
+        return parseFloat(target.value);
+      }
+      return target.value;
+    };
+
     const { target } = e;
     setEvent({
       ...event,
-      [target.name]: target.type === "checkbox" ? target.checked : target.value,
+      [target.name]: mapTargetValue(target),
     });
   };
 
@@ -79,27 +97,37 @@ const EditEvent = () => {
 
   return (
     <Grid container>
-      <Grid item xs={12} md>
+      <Grid item xs={12}>
+        <Typography variant="h2">{event.name}</Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <Alert severity="info">
+          <AlertTitle>Draft Event</AlertTitle>
+          This is a draft event and will not be displayed on the front page.
+        </Alert>
+      </Grid>
+      <Grid item xs={12} md={4} lg={3}>
         <Box>
-          <Button onClick={() => setEditing(!editing)}>
-            {editing ? "Cancel" : "Edit"}{" "}
-          </Button>
           {editing ? (
             <EventDetailsEditing
               event={event}
               onSubmit={onSubmit}
               handleChange={handleChange}
+              onCancel={() => setEditing(false)}
             />
           ) : (
-            <>
-              <EventDetails event={event} />
-              <hr />
+            <Box p={2}>
+              <EventDetails
+                event={event}
+                onEditEvent={() => setEditing(true)}
+              />
+              <Divider />
               <EventActions event={event} setEventStatus={setEventStatus} />
-            </>
+            </Box>
           )}
         </Box>
       </Grid>
-      <Grid item xs={12} md={8} lg={10}>
+      <Grid item xs={12} md={8} lg={9}>
         <EventAssignments event={event} />
       </Grid>
     </Grid>
@@ -137,9 +165,6 @@ const EventActions = ({ event, setEventStatus }) => {
       width={1}
       p={1}
     >
-      <Typography variant="h6" align="center" gutterBottom>
-        Actions
-      </Typography>
       {buttonsToShow.map((eventStatusButton) => (
         <Box p={1}>
           <Button
@@ -164,22 +189,43 @@ const EventActions = ({ event, setEventStatus }) => {
   );
 };
 
-const EventDetails = ({ event }) => (
+const EventDetails = ({ event, onEditEvent }) => (
   <Box>
-    <Typography variant="h6" gutterBottom>
-      {event.name}
-    </Typography>
-    <Typography variant="body2" gutterBottom>
-      {event.status?.text}
-    </Typography>
-    <Typography variant="body2" gutterBottom>
-      {event.description}
-    </Typography>
+    <Box p={1}>
+      <Typography variant="body1" gutterBottom>
+        Host Name
+      </Typography>
+      <Typography variant="body2" gutterBottom>
+        {event?.hostUserName}
+      </Typography>
+    </Box>
+    <Box p={1}>
+      <Typography variant="body1" gutterBottom>
+        Status
+      </Typography>
+      <Typography variant="body2" gutterBottom>
+        {event.status?.text}
+      </Typography>
+    </Box>
+    <Box p={1}>
+      <Typography variant="body1" gutterBottom>
+        Description
+      </Typography>
+      <Typography variant="body2" gutterBottom>
+        {event.description}
+      </Typography>
+    </Box>
+
+    <Box p={1} display="flex" justifyContent="center">
+      <Button onClick={onEditEvent} color="primary" size="large">
+        Edit Details
+      </Button>
+    </Box>
   </Box>
 );
 
-const EventDetailsEditing = ({ event, handleChange, onSubmit }) => (
-  <Box display="flex" flexDirection="column" alignItems="flex-start" width={1}>
+const EventDetailsEditing = ({ event, handleChange, onSubmit, onCancel }) => (
+  <Box display="flex" flexDirection="column" alignItems="flex-start">
     <form onSubmit={onSubmit} style={{ width: "100%" }}>
       <Box
         display="flex"
@@ -224,6 +270,19 @@ const EventDetailsEditing = ({ event, handleChange, onSubmit }) => (
           fullWidth
         />
 
+        {/* Number of Slots */}
+        <TextField
+          label="Number of Slots"
+          name="numberOfSlots"
+          value={event.numberOfSlots}
+          onChange={handleChange}
+          type="number"
+          margin="normal"
+          variant="outlined"
+          rows={4}
+          fullWidth
+        />
+
         {/* Description */}
         <TextField
           label="Description"
@@ -247,6 +306,7 @@ const EventDetailsEditing = ({ event, handleChange, onSubmit }) => (
           </Button>
           <Button
             type="cancel"
+            onClick={onCancel}
             variant="outlined"
             color="primary"
             margin="normal"
@@ -260,10 +320,13 @@ const EventDetailsEditing = ({ event, handleChange, onSubmit }) => (
 );
 
 const EventAssignments = ({ event }) => (
-  <Box flexGrow={1} flexDirection="column" alignItems="flex-start" fullWidth>
-    <Typography variant="h6" textAlign="center" gutterBottom>
-      Event Schedule
-    </Typography>
+  <Box
+    flexGrow={1}
+    flexDirection="column"
+    alignItems="flex-start"
+    p={3}
+    fullWidth
+  >
     {Array.from(new Array(event.numberOfSlots)).map((i, slotNumber) => (
       <EventAssignment event={event} slotNumber={slotNumber} />
     ))}
@@ -273,8 +336,8 @@ const EventAssignments = ({ event }) => (
         Requests to Play
       </Typography>
 
-      <Box display="flex">
-        {Array.from(new Array(3)).map(() => (
+      <Box display="flex" flexWrap="wrap">
+        {Array.from(new Array(20)).map(() => (
           <EventAssignmentRequest />
         ))}
       </Box>
@@ -309,24 +372,17 @@ const EventAssignment = ({ event, slotNumber }) => {
 
   return (
     <Box p={2}>
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={3} lg={2}>
-          {slotNumber + 1}
-          <p>
-            {formatTime(slotStartTime)}
-            {" - "}
-            {formatTime(slotEndTime)}
-          </p>
-        </Grid>
-        <Grid item xs>
-          <Box border={1} borderColor="grey.400" p={2}>
-            <Typography variant="h6" gutterBottom>
-              Name
-            </Typography>
-            <p>Genre</p>
-          </Box>
-        </Grid>
-      </Grid>
+      <Typography variant="body2">
+        {formatTime(slotStartTime)}
+        {" - "}
+        {formatTime(slotEndTime)}
+      </Typography>
+      <Box border={1} borderColor="grey.400" p={2}>
+        <Typography variant="h6" gutterBottom>
+          Name
+        </Typography>
+        <p>Genre</p>
+      </Box>
     </Box>
   );
 };
